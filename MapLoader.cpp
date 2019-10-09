@@ -4,38 +4,59 @@
 #include "MapLoader.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace std;
 Map readMapFile(string file) {
-    Map map;
-    string line;
-    bool hasContinents = false;
-    bool hasCountries = false;
-    bool hasBorders = false;
-    //input file
-    ifstream inputFile(file);
-    //Check if file exists
-    if (inputFile.fail()){
-        cerr<<"Error opening file"<<endl;
-        exit(1);
+   Map map;
+   ifstream inputFile(file);
+   string line;
+   int continentCount = 0;
+   int countryCount = 0;
+    //Find the [continents] section
+    while(getline(inputFile,line)&& line != "[continents]\r") {}
+    while(getline(inputFile,line) && line != "\r"){
+        //cout << line << endl;
+        string continent = line.substr(0,line.find(" "));
+        int value = stoi(line.substr(line.find(" ")+1)); //will take care of the value later
+        map.addContinent(Continent(continent));
+        //cout<<continent<<" and " << value <<endl;
     }
-    else {
-        //Check if the map file is valid.
-        while (!inputFile.eof()) {
-            inputFile >> line;
-            if (line == "[continents]") {
-                hasContinents = true;
-            }
-            if (line == "[countries]") {
-                hasCountries = true;
-            }
-            if (line == "[borders]") {
-                hasBorders = true;
-            }
+    //Find the [countries[ section
+    while(getline(inputFile,line)&& line != "[countries]\r") {}
+    while(getline(inputFile,line) && line != "\r"){
+        //split the line
+        stringstream ss(line);
+        string word;
+        char delim = ' ';
+        vector<string> lineSplit;
+        while(getline(ss,word,delim)){
+            lineSplit.push_back(word);
         }
-        if ((hasContinents && hasCountries && hasBorders) == false) {
-            cerr << "The map file is not valid" << endl;
-            exit(1);
-        }
+        int continentIndex = stoi(lineSplit[2]) -1;
+        //add a country to the map
+        map.addCountry(Country(lineSplit[1], map.getContinentbyIndex(continentIndex)));
+        int countryIndex = stoi(lineSplit[0])-1;
+        //add country to the continent as well
+        map.getContinentbyIndex(continentIndex).addCountry(map.getCountrybyIndex(countryIndex));
+
     }
+    //Find [borders] section
+    while(getline(inputFile,line)&& line != "[borders]\r") {}
+    while(getline(inputFile,line) && line != "\r"){
+        stringstream ss(line);
+        string word;
+        char delim = ' ';
+        vector<string> lineSplit;
+        while(getline(ss,word,delim)){
+            lineSplit.push_back(word);
+        }
+        int countryIndex = stoi(lineSplit[0]);
+        for(int i=1; i< lineSplit.size();i++){
+            int indexToAdd = stoi(lineSplit[i]);
+            map.getCountrybyIndex(countryIndex).addNeighbor(map.getCountrybyIndex(indexToAdd));
+        }
+
+    }
+    return map;
 
 }

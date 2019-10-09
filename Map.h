@@ -18,8 +18,10 @@ public:
     Country(string name,  Continent continent);
     ~Country();
     string getName();
+    vector<Country*> getNeigbors();
     void addNeighbor(Country country);
     void setName(string countryName);
+
 
 };
 class Map{
@@ -30,9 +32,13 @@ private:
 public:
     Map();
     ~Map();
-    void addCountry();
-    void addContinent();
+    Continent getContinentbyIndex(int index);
+    Country getCountrybyIndex(int index);
+    void addCountry(Country country);
+    void addContinent(Continent continent);
     void showMap();
+    bool isConnected(Country country);
+    int getIndexOfCountry(Country *country);
 
 
 };
@@ -40,11 +46,15 @@ public:
 class Continent{
 //Attributes
 private:
-    string* name();
+    string* name;
     vector<Country*> countries;
 public:
-    Continent();
+    Continent(string continentName);
     ~Continent();
+    string getName();
+    void setName(string continentName);
+    void addCountry(Country country);
+
 };
 
 #endif //COMP345_MAP_H

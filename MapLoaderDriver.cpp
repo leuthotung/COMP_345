@@ -5,29 +5,60 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
+
 using namespace std;
 
-int main(){
-     ifstream f("/home/tungleu/CLionProjects/COMP345/Maps/europe.map");
+/*int main(){
+     ifstream file("/home/tungleu/CLionProjects/COMP_345/Maps/europe.map");
      string line;
-     string continents;
-     bool hasContinents = false;
-     int count =0;
-     stringstream ss;
-     while(getline(f,line)){
-         
-         if (line == "[continents]"){
-             hasContinents = true;
+     //bool hasContinents = false;
+
+     while(getline(file,line)&& line != "[continents]\r") {}
+     cout<<"THESE ARE THE CONTINENTS"<<endl;
+     while(getline(file,line) && line != "\r"){
+         //cout << line << endl;
+         string continent = line.substr(0,line.find(" "));
+         int value = stoi(line.substr(line.find(" ")+1));
+         cout<<continent<<" and " << value <<endl;
+     }
+     while(getline(file,line)&& line != "[countries]\r") {}
+     cout<<"THESE ARE THE COUNTRIES"<<endl;
+     while(getline(file,line) && line != "\r"){
+         stringstream ss(line);
+         string word;
+         char delim = ' ';
+         vector<string> lineSplit;
+         while(getline(ss,word,delim)){
+             lineSplit.push_back(word);
          }
-
-         /*if (line == "[continents]\n"){
-             hasContinents= true;
-         }*/
+         cout << lineSplit[1] << endl;
      }
+     while(getline(file,line)&& line != "[borders]\r") {}
+     cout<<"THESE ARE THE BORDERS"<<endl;
+     while(getline(file,line) && line != "\r"){
+         stringstream ss(line);
+         string word;
+         char delim = ' ';
+         vector<string> lineSplit;
+         while(getline(ss,word,delim)){
+             lineSplit.push_back(word);
+         }
+         
+         cout << stoi(lineSplit[0]) << endl;
+     }*//*
 
 
-     cout<<hasContinents;
+
+
+
+    //cout << line << endl;
+     //cout<<hasContinents;
+
+
+
 
 
      }
+*/
 
