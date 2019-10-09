@@ -19,6 +19,7 @@ private:
 	std::vector<Card> *deckArrayList;
 public:
 	Deck(int numberOfCountries);
+	~Deck();
 	Card draw();
 	void display(); 
 };
@@ -31,10 +32,9 @@ class Hand {
 	int* armyCounter;
 public:
 	Hand();
-	Hand(int inf,int cav, int art);
 	~Hand();
 	bool exchange();
-//	void draw(Deck* d);
+	void draw(Deck *d);
 	void display();
 	int getTotalCards();
 	int getArmyCounter();

@@ -7,26 +7,24 @@ using namespace std;
 int main()
 {
 
-	Hand* hand = new Hand(9, 0, 3);
-	while (hand->getTotalCards() >= 5)
-		hand->exchange();
+	Hand* hand = new Hand();
 	hand->display();
-	cout << hand->getArmyCounter() <<endl ;
-	hand->~Hand();
 	Deck* myDeck = &Deck(50); 
-	myDeck->draw().display();
-	myDeck->draw().display();
-	myDeck->draw().display();
 	myDeck->display();
-	//The rest is test for draw , no bug when I tested by  manual input deck vector
-	//hand->draw();
-	//hand->draw();
-	//hand->draw();
-    //	hand->display();
-	//hand->exchange();
-	//hand->display();
-	//mydeck->display();
-
+	hand->draw(myDeck);
+	hand->display();
+	hand->draw(myDeck);
+	hand->display();
+	hand->draw(myDeck);
+	hand->display();
+	hand->draw(myDeck);
+	hand->display();
+	hand->draw(myDeck);
+	hand->display();
+	hand->draw(myDeck);
+	hand->display();
+	myDeck->display();
+	hand->display();
 
 	return 0;
 }
