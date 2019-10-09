@@ -8,129 +8,153 @@
 using namespace std;
 
 
-Card::Card(cardType t) {
-	this->type = t;
+Card::Card(char t) {
+	this->type =new char(t);
+	if (*type == 'i')
+		cout << "infantry card created" << endl;
+	if (*type == 'c')
+		cout << "cavalry card created" << endl;
+	if (*type == 'a')
+		cout << "artillery card created" << endl;
 }
 
+
 void Card::display(){
-	if (this->type==INFANTRY)  
-		cout<<"infantry"<<endl;
-	else if (this->type == CAVALRY)
-		cout << "Cavalry"<<endl;
-	else if (this->type == ARTILLERY)
-		cout << "Artillery"<<endl;
+	if (*type == 'i')
+		cout << "infantry" << endl;
+	else if (*type == 'c')
+		cout << "Cavalry" << endl;
+	else if (*type == 'a')
+		cout << "Artillery" << endl;
 	}
+
+char Card::getType()
+{
+	return *type;
+}
 
 
 
 Deck::Deck(int numberOfCountries) {
-	this->numOfArt = numberOfCountries / 3;
-	this->numOfInf = numberOfCountries / 3;
-	this->numOfCav = numberOfCountries / 3;
-	vector<Card> DeckArrayList;
+	this->numOfArt =new int(numberOfCountries / 3);
+	this->numOfInf =new int(numberOfCountries / 3);
+	this->numOfCav =new int(numberOfCountries / 3);
+	Card* temp;
+	deckArrayList=new vector<Card>;
 	if (numberOfCountries % 3 == 1)
 	{
-		numOfArt++;
+		*numOfArt=*numOfArt+1;
 	}
 	if (numberOfCountries % 3 == 2)
 	{ 
-		numOfArt++;
-	    numOfCav++;
+		*numOfArt = *numOfArt + 1;
+	    *numOfCav=*numOfCav +1;
 	}
-	for (int i = 0; i < numOfInf; i++) {
-		DeckArrayList.push_back(Card(INFANTRY));
+	for (int i = 0; i < *numOfInf; i++) {
+		temp= new Card('i');
+		deckArrayList->push_back(*temp);
 	}
-	for (int i = 0; i < numOfCav; i++) {
-		DeckArrayList.push_back(Card(CAVALRY));
+	for (int i = 0; i < *numOfCav; i++) {
+		temp = new Card('c');
+		deckArrayList->push_back(*temp);
 	}
-	for (int i = 0; i < numOfArt; i++) {
-		DeckArrayList.push_back(Card(ARTILLERY));
+	for (int i = 0; i < *numOfArt; i++) {
+		temp = new Card('a');
+		deckArrayList->push_back(*temp);
 	}
-	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine e(seed);
-	std::shuffle(DeckArrayList.begin(),DeckArrayList.end(),e); //shuffle the deck
+	std::shuffle(deckArrayList->begin(),deckArrayList->end(),e); //shuffle the deck
 	
-	for (int i = 0; i < DeckArrayList.size(); i++) {
-		DeckArrayList[i].display();
-	} //at this step is perfect.
-
 
 }
 
-void Deck::getDECKDATA()
-{
-	cout<<DeckArrayList.size()<<endl;
-}
 
 
 
-/*	
+	
 
-Card* Deck::draw() {
-	if (this->getCurrentNumOfCards() > 0) {
-	    Card* DeckArrayList = &DeckArrayList.back();
-		if (DeckArrayList->type==ARTILLERY) {
-			numOfArt - 1;
+Card Deck::draw() {
+	if (this->deckArrayList->size() > 0) {
+		Card* myCard = &deckArrayList->back();		
+		if (myCard->getType()=='a') {
+			*numOfArt -= 1;
 		}
-		if (DeckArrayList->type == INFANTRY) {
-			numOfInf - 1;
+		if (myCard->getType() =='i') {
+			*numOfInf -= 1;
 		}
-		if (DeckArrayList->type == CAVALRY) {
-			numOfCav - 1;
+		if (myCard->getType() == 'c') {
+			*numOfCav -= 1;
 		}
-        DeckArrayList.pop_back();
-		return DeckArrayList;
+		deckArrayList->pop_back();
+		return *myCard;
 	}
-	return NULL;
-}
-*/
+		return NULL;
+	}
+
 void Deck::display() {
-	cout << "The deck contains " << numOfArt << " artillery, " << numOfCav << " cavalry, and " << numOfInf << " infantry." << endl;
+	cout << "The deck contains " << *numOfArt << " artillery, " << *numOfCav << " cavalry, and " << *numOfInf << " infantry." << "size is " << deckArrayList->size()<< endl;
 }
 
 Hand::Hand() 
 {   
-	this->armyCounter = 0;
-	this->numOfArt = 0;
-	this->numOfCav = 0;
-	this->numOfInf = 0;
-	this->totalNumOfCards = 0;
+	this->armyCounter = new int(0);
+	this->numOfArt = new int(0);
+	this->numOfCav = new int(0);
+	this->numOfInf = new int(0);
+	this->totalNumOfCards = new int(0);
+	cout << "hand created" << endl;
 }
 Hand::Hand(int inf, int cav, int art)
 {
-	this->armyCounter = 0;
-	this->numOfInf = inf;
-	this->numOfCav = cav;
-	this->numOfArt = art;
-	this->totalNumOfCards=art+cav+inf;
+	this->armyCounter = new int(0);
+	this->numOfInf = new int(inf);
+	this->numOfCav = new int(cav);
+	this->numOfArt = new int(art);
+	this->totalNumOfCards= new int(art + cav + inf);
+	cout << "hand created" << endl;
 }
-;
+
+
+Hand::~Hand() {
+	delete armyCounter;
+	delete numOfInf;
+	delete numOfCav;
+	delete numOfArt;
+	delete totalNumOfCards;
+	armyCounter = NULL;
+	numOfInf = NULL;
+	numOfCav = NULL;
+	numOfArt = NULL;
+	totalNumOfCards = NULL;
+	cout << "hand deleted" << endl;
+}
 
 bool Hand::exchange() {
-	if (numOfArt >= 3) {
-		numOfArt -= 3;
-		totalNumOfCards -= 3;
-		armyCounter += 5;
+	if (*numOfArt >= 3) {
+		*numOfArt -= 3;
+		*totalNumOfCards -= 3;
+		*armyCounter += 5;
 		return true;
 	}
-	else if (numOfCav >= 3) {
-		numOfCav -= 3;
-		totalNumOfCards -= 3;
-		armyCounter += 5;
+	else if (*numOfCav >= 3) {
+		*numOfCav -= 3;
+		*totalNumOfCards -= 3;
+		*armyCounter += 5;
 		return true;
 	}
-	else if (numOfInf >= 3) {
-		numOfInf -= 3;
-		totalNumOfCards -= 3;
-		armyCounter += 5;
+	else if (*numOfInf >= 3) {
+		*numOfInf -= 3;
+		*totalNumOfCards -= 3;
+		*armyCounter += 5;
 		return true;
 	}
-	else if (numOfArt >= 1 && numOfCav >= 1 && numOfInf >= 1) {
-		numOfArt -= 1;
-		numOfCav -= 1;
-		numOfInf -= 1;
-		totalNumOfCards -= 3;
-		armyCounter += 5;
+	else if (*numOfArt >= 1 && *numOfCav >= 1 && *numOfInf >= 1) {
+		*numOfArt -= 1;
+		*numOfCav -= 1;
+		*numOfInf -= 1;
+		*totalNumOfCards -= 3;
+		*armyCounter += 5;
 		return true;
 	}
 	else
@@ -138,25 +162,26 @@ bool Hand::exchange() {
 }
 /*
 void Hand::draw(Deck* d) {
-	Card* c=d->draw();
-	if (c->type == INFANTRY)
-		numOfInf++;
-	if (c->type == ARTILLERY)
-		numOfArt++;
-	if (c->type == CAVALRY)
-		numOfCav++;
+	Card* c= d->draw();
+	if (c->getType() == 'i')
+		*numOfInf +=1;
+	if (c->getType() == 'a')
+		*numOfArt +=1;
+	if (c->getType() == 'c')
+		*numOfCav +=1;
 	delete c;
+	c = NULL;
 }
 */
 int Hand::getTotalCards() {
-	return totalNumOfCards;
+	return *totalNumOfCards;
 }
 
 int Hand::getArmyCounter() {
-	return armyCounter;
+	return *armyCounter;
 }
 
 void Hand::display() {
-	cout << "This hand contains " <<this->totalNumOfCards<<"cards,"<< this->numOfInf << " infantry cards, " << this->numOfCav << " cavalry cards, and "
-		<< this->numOfArt << " artillery cards." << endl;
+	cout << "This hand contains " <<*totalNumOfCards<<"cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
+		<< *numOfArt << " artillery cards." << endl;
 }

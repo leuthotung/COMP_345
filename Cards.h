@@ -1,40 +1,40 @@
 #pragma once
 #include <vector>
 
-enum cardType 
-{ INFANTRY, CAVALRY, ARTILLERY };
 
 class Card {
 public:
-	cardType type;
-	Card(cardType t);
+	Card(char t);
 	void display();
+	char getType();
+private:
+	char* type;
 };
 
 class Deck {
 private:
-	int numOfInf;
-	int numOfCav;
-	int numOfArt;
-	std::vector <Card> DeckArrayList;
+	int* numOfInf;
+	int* numOfCav;
+	int* numOfArt;
+	std::vector<Card> *deckArrayList;
 public:
 	Deck(int numberOfCountries);
-	void getDECKDATA();
-//	Card* draw();
+	Card draw();
 	void display(); 
 };
 
 class Hand {
-	int numOfInf;
-	int numOfCav;
-	int numOfArt;
-	int totalNumOfCards;
-	int armyCounter;
+	int* numOfInf;
+	int* numOfCav;
+	int* numOfArt;
+	int* totalNumOfCards;
+	int* armyCounter;
 public:
 	Hand();
 	Hand(int inf,int cav, int art);
+	~Hand();
 	bool exchange();
-	//void draw(Deck* d);
+//	void draw(Deck* d);
 	void display();
 	int getTotalCards();
 	int getArmyCounter();
