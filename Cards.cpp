@@ -8,17 +8,17 @@
 using namespace std;
 
 
-Card::Card(char t) {
-	this->type =new char(t);
+Card::Card(cardType t) {
+	this->type =new cardType(t);
 }
 
 
 void Card::display(){
-	if (*type == 'i')
+	if (*type == infantry)
 		cout << "Infantry" << endl;
-	else if (*type == 'c')
+	else if (*type == cavalry)
 		cout << "Cavalry" << endl;
-	else if (*type == 'a')
+	else if (*type == artillery)
 		cout << "Artillery" << endl;
 	}
 
@@ -45,15 +45,15 @@ Deck::Deck(int numberOfCountries) {
 	    *numOfCav=*numOfCav +1;
 	}
 	for (int i = 0; i < *numOfInf; i++) {
-		temp= new Card('i');
+		temp= new Card(infantry);
 		deckArrayList->push_back(*temp);
 	}
 	for (int i = 0; i < *numOfCav; i++) {
-		temp = new Card('c');
+		temp = new Card(cavalry);
 		deckArrayList->push_back(*temp);
 	}
 	for (int i = 0; i < *numOfArt; i++) {
-		temp = new Card('a');
+		temp = new Card(artillery);
 		deckArrayList->push_back(*temp);
 	}
 	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -74,20 +74,21 @@ Deck::~Deck()
 
 Card Deck::draw() {
 	if (this->deckArrayList->size() > 0) {
-		Card* myCard = &deckArrayList->back();		
-		if (myCard->getType()=='a') {
+		Card* myCard = &deckArrayList->back();
+		if (myCard->getType() == artillery) {
 			*numOfArt -= 1;
 		}
-		if (myCard->getType() =='i') {
+		if (myCard->getType() == infantry) {
 			*numOfInf -= 1;
 		}
-		if (myCard->getType() == 'c') {
+		if (myCard->getType() == cavalry) {
 			*numOfCav -= 1;
 		}
 		deckArrayList->pop_back();
 		return *myCard;
 	}
-		return NULL;
+	else
+		cout << "no card in deck" << endl;
 	}
 
 void Deck::display() {
@@ -153,42 +154,39 @@ bool Hand::exchange() {
 void Hand::draw(Deck *d) {
 	if (*totalNumOfCards < 5) {
 		Card c = d->draw();
-		if (c.getType() == 'i') {
+		if (c.getType() == infantry) {
 			cout << "The drawing Card is infantry" << endl;
 			*numOfInf += 1;
 		}	
-		if (c.getType() == 'a') {
+		if (c.getType() == artillery) {
 			cout << "The drawing Card is artillery" << endl;
 			*numOfArt += 1;
 		}
-		if (c.getType() == 'c') {
+		if (c.getType() == cavalry) {
 			*numOfCav += 1;
 			cout << "The drawing Card is calvalry" << endl;
 		}
 			
 		*totalNumOfCards += 1;
-		c = NULL;
 	}
 	else
 	{
 		exchange();
 		cout<<"there are 5 cards in hand, exchange first"<<endl;
 		Card c = d->draw();
-		if (c.getType() == 'i') {
+		if (c.getType() == infantry) {
 			cout << "The drawing Card is infantry" << endl;
 			*numOfInf += 1;
 		}
-		if (c.getType() == 'a') {
+		if (c.getType() == artillery) {
 			cout << "The drawing Card is artillery" << endl;
 			*numOfArt += 1;
 		}
-		if (c.getType() == 'c') {
+		if (c.getType() == cavalry) {
 			*numOfCav += 1;
 			cout << "The drawing Card is calvalry" << endl;
 		}
 		*totalNumOfCards += 1;
-		c = NULL;
-
 	}
 }
 

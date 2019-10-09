@@ -1,14 +1,14 @@
 #pragma once
 #include <vector>
-
+enum cardType {infantry,artillery,cavalry};
 
 class Card {
 public:
-	Card(char t);
+	Card(cardType t);
 	void display();
 	char getType();
 private:
-	char* type;
+	cardType* type;
 };
 
 class Deck {
