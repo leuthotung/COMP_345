@@ -202,5 +202,5 @@ int Hand::getArmyCounter() {
 
 void Hand::display() {
 	cout << "This hand contains " <<*totalNumOfCards<<"cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
-		<< *numOfArt << " artillery cards." << endl;
+		<< *numOfArt << " artillery cards." <<"armyCounter is "<<getArmyCounter()<< endl;
 }
