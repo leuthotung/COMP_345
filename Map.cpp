@@ -92,28 +92,32 @@ Country* Map::getCountrybyIndex(int index) {
     return this->countries[index];
 }
 // Using BFS algorithm to show the map is connected or not
-/*bool Map::isConnected(Country country) {
-    country = this->getCountrybyIndex(0);
+bool Map::isConnected() {
+
+    Country *country = this->getCountrybyIndex(0);
     bool *visited = new bool[this->countries.size()];
     for(int i = 0; i< this->countries.size();i++)
         visited[i] = 0;
-    queue<Country> queue;
-    visited[getIndexOfCountry(&country)]= true;
+    queue<Country*> queue;
+    int visitedCount = 1;
+    visited[getIndexOfCountry(country)]= true;
     queue.push(country);
     while(!queue.empty()){
         country = queue.front();
         queue.pop();
-        vector<Country*> neighbors = country.getNeigbors();
+        vector<Country*> neighbors = country->getNeigbors();
         for(auto & neighbor : neighbors){
             if(!visited[getIndexOfCountry(neighbor)]){
                 visited[getIndexOfCountry(neighbor)]= true;
-                queue.push(*neighbor);
+                visitedCount++;
+                queue.push(neighbor);
             }
         }
     }
+    return visitedCount == this->countries.size();
 
 
-}*/
+}
 
 
 int Map::getIndexOfCountry(Country *country) {

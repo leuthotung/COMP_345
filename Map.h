@@ -38,7 +38,7 @@ public:
     void addCountry(Country* country);
     void addContinent(Continent* continent);
     void showMap();
-    bool isConnected(Country country);
+    bool isConnected();
     int getIndexOfCountry(Country *country);
     void print();
 
