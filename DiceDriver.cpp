@@ -3,12 +3,13 @@
 //
 
 #include <iostream>
+#include<vector>
 #include "Dice.h"
 
 using namespace std;
 
 int main() {
-    Dice* d=new Dice();
+    Dice *d = new Dice();
     d->roll();
     d->roll();
     d->roll();
@@ -18,14 +19,14 @@ int main() {
     d->roll();
     d->roll();
     d->roll();
-    for (int i = 0; i < d->getValue().size(); i++) {
-        cout << d->getValue()[i];
+    for (int i = 0; i < d->get_value().size(); i++) {
+        cout << *(d->get_value()[i]) << endl;
     }
     cout << endl;
     for (int i = 1; i <= 6; i++) {
-        d->getRolledTimes(i);
+        d->get_rolled_times(i);
     }
     for (int i = 1; i <= 6; i++) {
-        d->getPercentage(i);
+        d->get_percentage(i);
     }
 };

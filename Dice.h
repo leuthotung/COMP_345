@@ -11,19 +11,20 @@
 using namespace std;
 
 class Dice {
-    vector<int>* value;
-    int* number;
-    int* numbers[6];
+private:
+    vector<int *> value;
+    int *number;
+    int *numbers[6];
 public:
     Dice();
 
-    vector<int> getValue();
+    vector<int *> get_value();
 
-    int roll();
+    void roll();
 
-    int getRolledTimes(int i);
+    int get_rolled_times(int i);
 
-    double getPercentage(int i);
+    double get_percentage(int i);
 
     ~Dice();
 };
