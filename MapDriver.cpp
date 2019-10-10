@@ -4,8 +4,15 @@
 #include "Map.h"
 #include <iostream>
 #include <vector>
+#include "MapLoader.h"
 using namespace std;
-int main() {
 
+int main() {
+    Map a = readMapFile("/home/tungleu/CLionProjects/COMP_345/Maps/europe.map");
+
+
+
+
+    a.print();
 }
 

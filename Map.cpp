@@ -9,10 +9,10 @@
 
 
 using namespace std;
-Country::Country(string countryName ,Continent continentName) {
+Country::Country(string countryName ,Continent* continentName) {
     this->name = new string(countryName);
     this->numberOfArmies = new int(0);
-    this->continent = &continentName;
+    this->continent = continentName;
 
 }
 string Country::getName() {
@@ -28,13 +28,18 @@ Country::~Country() {
 
 }
 
-void Country::addNeighbor(Country country) {
-    this->neighbors.push_back(&country);
+void Country::addNeighbor(Country* country) {
+    this->neighbors.push_back(country);
 }
 
 vector<Country*> Country::getNeigbors() {
     return this->neighbors;
 }
+
+Country::Country() {
+
+}
+
 
 Continent::Continent(string continentName) {
     this->name = new string(continentName);
@@ -53,8 +58,8 @@ void Continent::setName(string continentName) {
 
 }
 
-void Continent::addCountry(Country country) {
-    this->countries.push_back(&country);
+void Continent::addCountry(Country* country) {
+    this->countries.push_back(country);
 }
 
 Map::Map() {
@@ -69,25 +74,25 @@ void Map::showMap() {
 
 }
 
-void Map::addContinent(Continent continent) {
-    this->continents.push_back(&continent);
+void Map::addContinent(Continent* continent) {
+    this->continents.push_back(continent);
 }
 
 
 
-Continent Map::getContinentbyIndex(int index) {
-    return *this->continents[index];
+Continent* Map::getContinentbyIndex(int index) {
+    return this->continents[index];
 }
 
-void Map::addCountry(Country country) {
-    this->countries.push_back(&country);
+void Map::addCountry(Country* country) {
+    this->countries.push_back(country);
 }
 
-Country Map::getCountrybyIndex(int index) {
-    return *this->countries[index];
+Country* Map::getCountrybyIndex(int index) {
+    return this->countries[index];
 }
 // Using BFS algorithm to show the map is connected or not
-bool Map::isConnected(Country country) {
+/*bool Map::isConnected(Country country) {
     country = this->getCountrybyIndex(0);
     bool *visited = new bool[this->countries.size()];
     for(int i = 0; i< this->countries.size();i++)
@@ -108,7 +113,7 @@ bool Map::isConnected(Country country) {
     }
 
 
-}
+}*/
 
 
 int Map::getIndexOfCountry(Country *country) {
@@ -119,4 +124,24 @@ int Map::getIndexOfCountry(Country *country) {
 
 
     }
+}
+
+void Map::print() {
+    cout<< "LIST OF COUNTRIES :  "<<endl;
+    Country* country;
+    for (int i = 0; i< this->countries.size();i++){
+        country = countries[i];
+        cout<<country->getName()<<endl;
+        cout<<"Neighbors: ";
+        vector<Country*> neighbors = countries[i]->getNeigbors();
+        for(int j = 0; j<neighbors.size();j++){
+            cout<<neighbors[j]->getName()<<", ";
+        }
+        cout<<" "<<endl;
+    }
+    cout<< "LIST OF CONTINENTS: "<< endl;
+    for (int i = 0; i< this->continents.size();i++){
+        cout<<continents[i]->getName()<<endl;
+    }
+
 }
