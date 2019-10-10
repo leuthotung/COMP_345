@@ -62,6 +62,42 @@ void Continent::addCountry(Country* country) {
     this->countries.push_back(country);
 }
 
+bool Continent::isConnected() {
+    Country* country = this->getCountrybyIndex(0);
+    bool *visited = new bool[this->countries.size()];
+    for(int i = 0; i< this->countries.size();i++)
+        visited[i] = 0;
+    queue<Country*> queue;
+    int visitedCount = 1;
+    visited[getIndexOfCountry(country)]= true;
+    queue.push(country);
+    while(!queue.empty()) {
+        country = queue.front();
+        queue.pop();
+        vector<Country *> neighbors = country->getNeigbors();
+        for (auto &neighbor : neighbors) {
+            if (!visited[getIndexOfCountry(neighbor)]) {
+                visited[getIndexOfCountry(neighbor)] = true;
+                visitedCount++;
+                queue.push(neighbor);
+            }
+        }
+    }
+    return visitedCount == this->countries.size();
+}
+
+Country *Continent::getCountrybyIndex(int index) {
+    return this->countries[index];
+}
+
+int Continent::getIndexOfCountry(Country *country) {
+    for(int i =0; i<this->countries.size();i++){
+        if (countries[i] == country) {
+            return i;
+        }
+    }
+}
+
 Map::Map() {
 
 
@@ -148,4 +184,8 @@ void Map::print() {
         cout<<continents[i]->getName()<<endl;
     }
 
+}
+
+vector<Continent *> Map::getContinents() {
+    return this->continents;
 }

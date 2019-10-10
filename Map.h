@@ -41,6 +41,7 @@ public:
     bool isConnected();
     int getIndexOfCountry(Country *country);
     void print();
+    vector<Continent*> getContinents();
 
 };
 
@@ -55,6 +56,10 @@ public:
     string getName();
     void setName(string continentName);
     void addCountry(Country* country);
+    bool isConnected();
+    Country* getCountrybyIndex(int index);
+    int getIndexOfCountry(Country* country);
+
 
 };
 
