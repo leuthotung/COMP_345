@@ -1,15 +1,15 @@
 ﻿
 #include <iostream>
-#include "Cards.h";
+#include "Cards.h"
 
 using namespace std;
 
-int main()
+/*int main()
 {
 
 	Hand* hand = new Hand();
 	hand->display();
-	Deck* myDeck = &Deck(49); 
+	Deck* myDeck =  new Deck(49);
 	myDeck->display();
 	hand->draw(myDeck);//draw from myDeck 
 	hand->display();
@@ -33,5 +33,5 @@ int main()
 	myDeck->display();
 
 	return 0;
-}
+}*/
  
