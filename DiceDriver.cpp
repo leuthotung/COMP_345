@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int main() {
+/*int main() {
     Dice *d = new Dice();
     d->roll();
     d->roll();
@@ -29,4 +29,4 @@ int main() {
     for (int i = 1; i <= 6; i++) {
         d->get_percentage(i);
     }
-};
+};*/

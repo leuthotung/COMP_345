@@ -1,4 +1,4 @@
-#include "./cards.h"
+#include "./Cards.h"
 
 #include <iostream>
 #include <random>
@@ -88,7 +88,7 @@ Card Deck::draw() {
 		return *myCard;
 	}
 	else
-		cout << "no card in deck" << endl;
+		cout << "No card in deck" << endl;
 	}
 
 void Deck::display() {
@@ -102,7 +102,7 @@ Hand::Hand()
 	this->numOfCav = new int(0);
 	this->numOfInf = new int(0);
 	this->totalNumOfCards = new int(0);
-	cout << "hand created" << endl;
+	cout << "Hand created" << endl;
 }
 
 
@@ -199,6 +199,6 @@ int Hand::getArmyCounter() {
 }
 
 void Hand::display() {
-	cout << "This hand contains " <<*totalNumOfCards<<"cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
-		<< *numOfArt << " artillery cards." <<"armyCounter is "<<getArmyCounter()<< endl;
+	cout << "This hand contains " <<*totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
+		<< *numOfArt << " artillery cards." <<" ArmyCounter is "<<getArmyCounter()<< endl;
 }
