@@ -11,23 +11,24 @@ int main()
 	hand->display();
 	Deck* myDeck = &Deck(49); 
 	myDeck->display();
-	hand->draw(myDeck);
+	hand->draw(myDeck);//draw from myDeck 
+	hand->display();
+	hand->draw(myDeck); 
 	hand->display();
 	hand->draw(myDeck);
 	hand->display();
 	hand->draw(myDeck);
 	hand->display();
 	hand->draw(myDeck);
+	hand->displayCurrentCard();//display current Card objects 
+	hand->display();//display current numbers of cards
+	hand->draw(myDeck);//there are 5 cards,so it will exchange automatically
 	hand->display();
-	hand->draw(myDeck);
+	hand->draw(myDeck);//4
 	hand->display();
-	hand->draw(myDeck);
+	hand->draw(myDeck);//5
 	hand->display();
-	hand->draw(myDeck);
-	hand->display();
-	hand->draw(myDeck);
-	hand->display();
-	hand->draw(myDeck);
+	hand->exchange();//try to exchange manually
 	hand->display();
 	myDeck->display();
 
