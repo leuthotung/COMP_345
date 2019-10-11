@@ -8,5 +8,6 @@
 #include <iostream>
 
 Map readMapFile(string file);
+bool validateMapFile(string file);
 
 #endif //COMP345_MAPLOADER_H
