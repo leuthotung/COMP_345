@@ -1,8 +1,7 @@
-#include "./Cards.h"
+#include "./cards.h"
 
 #include <iostream>
 #include <random>
-#include <vector>
 #include <algorithm>
 #include <chrono> 
 using namespace std;
@@ -18,6 +17,7 @@ Card::~Card() {
 void Card::myDestructor() {
 	delete type;
 	type = NULL;
+	cout <<"card deleted"<< endl;
 }
 void Card::display(){
 	if (*type == infantry)
@@ -63,17 +63,31 @@ Deck::Deck(int numberOfCountries) {
 	std::default_random_engine e(seed);
 	std::shuffle(deckVector->begin(),deckVector->end(),e); //shuffle the deck
 	cout << "Deck created" << endl;
+	/*for demo use
+	for (int i = 0; i < deckVector->size(); i++) {
+		deckVector->at(i).display();
+	}
+	*/ 
 }
 
 Deck::~Deck()
 {
+	delete numOfArt;
+	numOfArt = NULL;
+	delete numOfCav;
+	numOfCav = NULL;
+	delete numOfInf;
+	numOfInf = NULL;
+	delete deckVector;
+	deckVector = NULL;
+	cout << "deck deleted" << endl;
 }
 
 
 
 
 	
-//the function will draw a card from the deckArrayList,but it won't destruct the card Object
+//the function will draw a card from the deckArrayList,but it won't destroy the card Object
 Card Deck::draw() {
 	if (this->deckVector->size() > 0) {
 		Card* myCard = &deckVector->back();
@@ -90,7 +104,7 @@ Card Deck::draw() {
 		return *myCard;
 	}
 	else
-		cout << "No card in deck" << endl;
+		cout << "no card in deck" << endl;
 	}
 
 void Deck::display() {
@@ -126,89 +140,61 @@ Hand::~Hand() {
 	cout << "hand deleted" << endl;
 }
 
-bool Hand::exchange() {
-	if (*numOfArt >= 3) {
+bool Hand::exchangeFlag() {
+	if (*numOfArt >= 3) 
+	{
 		*numOfArt -= 3;
 		*totalNumOfCards -= 3;
 		*armyCounter += 5;
 		//why use for loop 3 times: cause the size is changing
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == artillery) {
-				handDeck->at(i).myDestructor();//erase doesn't have authority to delete the pointer
-				handDeck->erase(handDeck->begin() + i);
-				break;
-			}
-		}
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == artillery) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
-			}
-		}
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == artillery) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
+		for (int k = 0; k < 3; k++) {
+			for (int i = 0; i < handDeck->size(); i++) 
+			{
+				if (handDeck->at(i).getType() == artillery) 
+				{
+					handDeck->at(i).myDestructor();//erase doesn't have authority to delete the pointer
+					handDeck->erase(handDeck->begin() + i);
+					break;
+				}
 			}
 		}
 		return true;
 	}
-	else if (*numOfCav >= 3) {
+	else if (*numOfCav >= 3) 
+	{
 		*numOfCav -= 3;
 		*totalNumOfCards -= 3;
 		*armyCounter += 5;
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == cavalry) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
+		for (int k = 0; k < 3; k++)
+		{
+			for (int i = 0; i < handDeck->size(); i++)
+			{
+				if (handDeck->at(i).getType() == cavalry)
+				{
+					handDeck->at(i).myDestructor();
+					handDeck->erase(handDeck->begin() + i);
+					break;
+				}
 			}
 		}
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == cavalry) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
-			}
-		}
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == cavalry) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
-			}
-		}
-
 		return true;
 	}
-	else if (*numOfInf >= 3) {
+	else if (*numOfInf >= 3) 
+	{
 		*numOfInf -= 3;
 		*totalNumOfCards -= 3;
 		*armyCounter += 5;
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == infantry) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
+		for (int k = 0; k < 3; k++)
+		{
+			for (int i = 0; i < handDeck->size(); i++)
+			{
+				if (handDeck->at(i).getType() == infantry) {
+					handDeck->at(i).myDestructor();
+					handDeck->erase(handDeck->begin() + i);
+					break;
+				}
 			}
 		}
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() ==infantry) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
-			}
-		}
-		for (int i = 0; i < handDeck->size(); i++) {
-			if (handDeck->at(i).getType() == infantry) {
-				handDeck->at(i).myDestructor();
-				handDeck->erase(handDeck->begin() + i);
-				break;
-			}
-		}
-
 		return true;
 	}
 	else if (*numOfArt >= 1 && *numOfCav >= 1 && *numOfInf >= 1) {
@@ -238,15 +224,29 @@ bool Hand::exchange() {
 				break;
 			}
 		}
-
 		return true;
 	}
 	else
 		return false;//there are no enought cards to exchange
 }
 
+int Hand::exchange()
+{
+	if (exchangeFlag() == true)
+	{
+		cout << "exchanged successfully," << *armyCounter << " armies will be returned" << endl;
+		return *armyCounter;
+	}
+	else 
+	{
+		cout << "not enough card, won't exchange,0 army will be returned"<<endl;
+		return 0;
+	}
+}
+
 void Hand::draw(Deck *d) {
-	if (*totalNumOfCards < 5) {
+	if (*totalNumOfCards < 5) 
+	{
 		Card c = d->draw();
 		if (c.getType() == infantry) {
 			cout << "The drawing Card is infantry" << endl;
@@ -265,8 +265,8 @@ void Hand::draw(Deck *d) {
 	}
 	else//the num of cards in hand are above 5
 	{
+		cout<<"there are 5 cards in hand, exchange automatically"<<endl;
 		exchange();
-		cout<<"there are 5 cards in hand, exchange first"<<endl;
 		Card c = d->draw();
 		if (c.getType() == infantry) {
 			cout << "The drawing Card is infantry" << endl;
@@ -296,7 +296,7 @@ int Hand::getArmyCounter() {
 //This display will show the number of different kinds of cards  in hand
 void Hand::display() {
 	cout << "This hand contains " <<*totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
-		<< *numOfArt << " artillery cards." <<" ArmyCounter is "<<getArmyCounter()<< endl;
+		<< *numOfArt << " artillery cards." <<"armyCounter is "<<getArmyCounter()<< endl;
 }
 //This display will show current card object in hand
 void Hand::displayCurrentCard() {
