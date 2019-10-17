@@ -34,7 +34,7 @@ class Hand {
 	int* numOfCav;
 	int* numOfArt;
 	int* totalNumOfCards;
-	 int* armyCounter;
+	int* armyCounter;
 	std::vector<Card> *handDeck;
 public:
 	Hand();

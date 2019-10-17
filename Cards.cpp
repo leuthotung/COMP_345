@@ -1,4 +1,4 @@
-#include "./Cards.h"
+#include "./cards.h"
 
 #include <iostream>
 #include <random>
@@ -18,6 +18,7 @@ Card::~Card() {
 void Card::myDestructor() {
 	delete type;
 	type = NULL;
+	cout <<"card deleted"<< endl;
 }
 void Card::display(){
 	if (*type == infantry)
@@ -72,6 +73,15 @@ Deck::Deck(int numberOfCountries) {
 
 Deck::~Deck()
 {
+	delete numOfArt;
+	numOfArt = NULL;
+	delete numOfCav;
+	numOfCav = NULL;
+	delete numOfInf;
+	numOfInf = NULL;
+	delete deckVector;
+	deckVector = NULL;
+	cout << "deck deleted" << endl;
 }
 
 
@@ -95,7 +105,7 @@ Card Deck::draw() {
 		return *myCard;
 	}
 	else
-		cout << "No card in deck" << endl;
+		cout << "no card in deck" << endl;
 	}
 
 void Deck::display() {
@@ -225,7 +235,7 @@ int Hand::exchange()
 {
 	if (exchangeFlag() == true)
 	{
-		cout << "exchanged successfully," << *armyCounter << "armies will be returned" << endl;
+		cout << "exchanged successfully," << *armyCounter << " armies will be returned" << endl;
 		return *armyCounter;
 	}
 	else 
@@ -287,7 +297,7 @@ int Hand::getArmyCounter() {
 //This display will show the number of different kinds of cards  in hand
 void Hand::display() {
 	cout << "This hand contains " <<*totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
-		<< *numOfArt << " artillery cards." <<" ArmyCounter is "<<getArmyCounter()<< endl;
+		<< *numOfArt << " artillery cards." <<"armyCounter is "<<getArmyCounter()<< endl;
 }
 //This display will show current card object in hand
 void Hand::displayCurrentCard() {
