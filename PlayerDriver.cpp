@@ -18,7 +18,3 @@ int main(){
     Lebron->getHand()->display();
     Lebron->getDice()->roll();
 }*/
-int main(){
-    //Map a = readMapFile("../Maps/europe.map");
-    validateMapFile("../Maps/europe.map");
-}
