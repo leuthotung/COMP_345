@@ -3,6 +3,7 @@
 
 using namespace std;
 
+/*
 int main()
 {
 	Hand* hand = new Hand();
@@ -34,4 +35,4 @@ int main()
 
 	return 0;
 }
- 
+ */
