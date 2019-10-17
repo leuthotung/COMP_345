@@ -13,12 +13,77 @@ bool validateMapFile(string file){
     bool hasCountries = false;
     bool hasBorders = false;
     while(getline(checkValid,lineCheck)){
-        if(lineCheck == "[continents]\r")
+        if(lineCheck == "[continents]\r") {
             hasContinents = true;
-        if(lineCheck == "[countries]\r")
+            while(getline(checkValid,lineCheck) &&lineCheck != "\r"){
+                stringstream ss(lineCheck);
+                string word;
+                char delim = ' ';
+                vector<string> lineSplit;
+                while (getline(ss, word, delim)) {
+                    lineSplit.push_back(word);
+                }
+                //check if it has enough information
+                if (lineSplit.size() != 3)
+                    cerr<<"Incorrect continent format"<<endl;
+                //check if it is an intergrer
+                try{
+                    int value = stoi(lineSplit[1]);
+                }
+                catch(...){
+                    cerr<<"Incorrect continent format"<<endl;
+                }
+
+
+            }
+        }
+        if(lineCheck == "[countries]\r") {
             hasCountries = true;
-        if(lineCheck == "[borders]\r")
+            while (getline(checkValid, lineCheck) && lineCheck != "\r") {
+                stringstream ss(lineCheck);
+                string word;
+                char delim = ' ';
+                vector<string> lineSplit;
+                while (getline(ss, word, delim)) {
+                    lineSplit.push_back(word);
+                }
+                //check if the line has enough information
+                if (lineSplit.size() != 5)
+                    cerr<<"Incorrect country format"<<endl;
+                //Check if they are intergers
+                try{
+                    int value = stoi(lineSplit[0]);
+                    int value2 = stoi(lineSplit[2]);
+                    int value3 = stoi(lineSplit[3]);
+                    int value4 = stoi(lineSplit[4]);
+                }
+                catch(...){
+                    cerr<<"Incorrect country format"<<endl;
+                }
+            }
+        }
+        if(lineCheck == "[borders]\r"){
             hasBorders = true;
+            while (getline(checkValid, lineCheck) && lineCheck != "\r") {
+                stringstream ss(lineCheck);
+                string word;
+                char delim = ' ';
+                vector<string> lineSplit;
+                while (getline(ss, word, delim)) {
+                    lineSplit.push_back(word);
+                }
+                //check if they are all numbers
+                try{
+                    for (int i = 0; i < lineSplit.size(); i++) {
+                        int value = stoi(lineSplit[i]) ;
+                    }
+                }
+                catch(...){
+                    cerr<<"Incorrect borders format"<<endl;
+                }
+            }
+        }
+
 
     }
     bool enoughSections= hasBorders && hasContinents && hasCountries;
