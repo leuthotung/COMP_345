@@ -63,11 +63,12 @@ Deck::Deck(int numberOfCountries) {
 	std::default_random_engine e(seed);
 	std::shuffle(deckVector->begin(),deckVector->end(),e); //shuffle the deck
 	cout << "Deck created" << endl;
-	/*for demo use
+	/*
 	for (int i = 0; i < deckVector->size(); i++) {
 		deckVector->at(i).display();
 	}
-	*/ 
+	*/
+	
 }
 
 Deck::~Deck()
@@ -110,7 +111,7 @@ Card Deck::draw() {
 void Deck::display() {
 	cout << "The deck contains " << *numOfArt << " artillery, " << *numOfCav << " cavalry, and " << *numOfInf << " infantry." << "size is " << deckVector->size()<< endl;
 }
-
+	
 
 Hand::Hand() 
 {   
