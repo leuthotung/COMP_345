@@ -1,9 +1,9 @@
 //
 // Created by tungleu on 10/11/19.
 //
-
+#include "MapLoader.h"
 #include "Player.h"
-
+/*
 int main(){
     Player* Lebron =  new Player("Lebron");
     Lebron->attack();
@@ -17,4 +17,8 @@ int main(){
     Lebron->addCountry(Japan);
     Lebron->getHand()->display();
     Lebron->getDice()->roll();
+}*/
+int main(){
+    //Map a = readMapFile("../Maps/europe.map");
+    validateMapFile("../Maps/europe.map");
 }
