@@ -4,6 +4,7 @@
 
 #include "Player.h"
 
+/*
 int main(){
     Player* Lebron =  new Player("Lebron");
     Lebron->attack();
@@ -18,3 +19,4 @@ int main(){
     Lebron->getHand()->display();
     Lebron->getDice()->roll();
 }
+*/

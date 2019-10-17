@@ -1,4 +1,4 @@
-#include "./cards.h"
+#include "Cards.h"
 
 #include <iostream>
 #include <random>
