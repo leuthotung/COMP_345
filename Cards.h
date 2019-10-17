@@ -4,6 +4,8 @@
 enum cardType {infantry,artillery,cavalry}; //enum 3 type of cards
 
 class Card {
+private:
+	cardType* type;
 public:
 	Card(cardType t);
 	void display();
@@ -12,8 +14,7 @@ public:
 	~Card();
 	//why two destructor: when the deckVector is created, I will use 'temp' as variable name to  new a Card object to push,
 	//however when the 'temp' point to another object, the former one will call destructructor automatically;
-private:
-	cardType* type;
+
 };
 
 class Deck {
@@ -30,6 +31,7 @@ public:
 };
 
 class Hand {
+private:
 	int* numOfInf;
 	int* numOfCav;
 	int* numOfArt;
