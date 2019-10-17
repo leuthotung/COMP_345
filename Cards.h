@@ -34,12 +34,13 @@ class Hand {
 	int* numOfCav;
 	int* numOfArt;
 	int* totalNumOfCards;
-	int* armyCounter;
+	 int* armyCounter;
 	std::vector<Card> *handDeck;
 public:
 	Hand();
 	~Hand();
-	bool exchange();
+	bool exchangeFlag();
+	int exchange();
 	void draw(Deck *d);
 	void display();//This display will show the number of different kinds of cards  in hand
 	void displayCurrentCard();//This display will show current card object in hand
