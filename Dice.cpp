@@ -25,7 +25,7 @@ vector<int *> Dice::get_value() {
 }
 
 //ask user the number of dices to be rolled and put the rolled numbers into a vector container
-void Dice::roll() {
+void Dice::roll() { //should return value of the roll and must be sorted
     int numberOfDices = 0;
     bool A = true;
     while (A) {

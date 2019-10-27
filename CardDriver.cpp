@@ -1,9 +1,8 @@
 ﻿#include <iostream>
-#include "Cards.h";
+#include "Cards.h"
 
 using namespace std;
 
-/*
 int main()
 {
 	Hand* hand = new Hand();
@@ -41,4 +40,3 @@ int main()
 
 	return 0;
 }
- */

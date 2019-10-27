@@ -12,4 +12,6 @@ int main() {
     a.print();
     //read a fail map
     Map b = readMapFile("../Maps/test.map");
-}*/
+    return 0;
+}
+*/
