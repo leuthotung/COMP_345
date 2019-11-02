@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "Dice.h"
+#include <time.h>
 
 using namespace std;
 

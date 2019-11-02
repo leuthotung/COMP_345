@@ -115,7 +115,7 @@ void Deck::display() {
 
 Hand::Hand() 
 {   
-	this->armyCounter = new int(0);//initial armyCounter as 0, every exchange will let it+=5 then exchange;
+
 	this->numOfArt = new int(0);
 	this->numOfCav = new int(0);
 	this->numOfInf = new int(0);
@@ -124,6 +124,7 @@ Hand::Hand()
 	cout << "hand created" << endl;
 }
 
+int* Hand::armyCounter = new int(0);
 
 Hand::~Hand() {
 	delete armyCounter;

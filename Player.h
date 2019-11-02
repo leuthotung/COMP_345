@@ -22,7 +22,13 @@ private:
 	vector<Country*> countries; //Collection of countries
 	Dice* dice; // Dice facility
 	Hand* hand;    //Hand of Risk cards
-
+	int* armyCounter; //assignment2
+	int* asiaCounter;
+	int* euCounter;
+	int* naCounter;
+	int* saCounter;
+	int* africaCounter;
+	int* oceaniaCounter;
 
 public:
 	Player();
@@ -34,6 +40,7 @@ public:
 	void reinforce();
 	void attack();
 	void fortify();
+	int continentCheck();//assignment 2 ok
 };
 
 #endif
