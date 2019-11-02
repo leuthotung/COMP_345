@@ -76,7 +76,7 @@ void Continent::setName(string continentName) {
 void Continent::addCountry(Country* country) {
     this->countries.push_back(country);
 }
-
+// Using BFS to check if the continent is connected
 bool Continent::isConnected() {
     Country* country = this->getCountrybyIndex(0);
     bool *visited = new bool[this->countries.size()];
