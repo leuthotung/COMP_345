@@ -6,15 +6,34 @@
 
 int main(){
     Player* Lebron =  new Player("Lebron");
-    Lebron->attack();
-    Lebron->fortify();
-    Lebron->reinforce();
-    Country* Canada = new Country("Canada",new Continent("A"));
-
-    Country* Japan = new Country("Japan", new Continent("B"));
-
+    Country* Canada = new Country("Canada",new Continent("northAmerica"));
+	Country* USA = new Country("USA", new Continent("northAmerica"));
+	Country* China = new Country("China", new Continent("asia"));
+    Country* Japan = new Country("Japan", new Continent("asia"));
+	Country* Korea = new Country("Korea", new Continent("asia"));
+    Country* India = new Country("India", new Continent("asia"));
+    Country* Vietnam = new Country("Vietnam", new Continent("asia")); 
+	cout << Japan->getArmies()<< endl;
+	cout<<Japan->getContinent().getName()<<endl;
     Lebron->addCountry(Canada);
+	Lebron->addCountry(USA);
+	Lebron->addCountry(China);
     Lebron->addCountry(Japan);
-    Lebron->getHand()->display();
-    Lebron->getDice()->roll();
+	Lebron->addCountry(Korea);
+	Lebron->addCountry(India);
+	Lebron->addCountry(Vietnam);
+	Deck* myDeck = new Deck(49);
+	//cout <<Lebron->continentCheck()<< endl;
+	Lebron->getHand()->draw(myDeck);
+	Lebron->getHand()->draw(myDeck);
+	Lebron->getHand()->draw(myDeck);
+	Lebron->getHand()->draw(myDeck);
+	Lebron->getHand()->draw(myDeck);
+	Lebron->getHand()->display();
+	Lebron->reinforce();
+	//Lebron->attack();
+	//Lebron->fortify();
+
+    
+    //Lebron->getDice()->roll();
 }

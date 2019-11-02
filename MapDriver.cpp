@@ -7,7 +7,7 @@
 #include "MapLoader.h"
 using namespace std;
 
-/*int main(){
+int main(){
     Map a = readMapFile("../Maps/europe.map");
     //a.print();
     if(a.isConnected()){
@@ -29,4 +29,4 @@ using namespace std;
         cout<<"The map is not a connected graph"<<endl;
     }
 
-}*/
+}

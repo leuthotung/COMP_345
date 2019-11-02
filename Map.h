@@ -22,8 +22,9 @@ public:
     vector<Country*> getNeigbors();
     void addNeighbor(Country* country);
     void setName(string countryName);
-
-
+	Continent getContinent();//assignment2 ok
+	void addArmy(int changeArmy);
+	int getArmies();
 };
 class Map{
 //Attributes

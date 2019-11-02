@@ -24,8 +24,23 @@ void Country::setName(string countryName) {
     this->name = &countryName;
 }
 
+Continent Country::getContinent()
+{
+	return *continent;
+}
+
 Country::~Country() {
 
+}
+
+void Country::addArmy(int changeArmy)
+{
+	*numberOfArmies += changeArmy;
+}
+
+int Country::getArmies()
+{
+	return *numberOfArmies;
 }
 
 void Country::addNeighbor(Country* country) {
