@@ -13,6 +13,17 @@ int main(){
 	Country* Korea = new Country("Korea", new Continent("asia"));
     Country* India = new Country("India", new Continent("asia"));
     Country* Vietnam = new Country("Vietnam", new Continent("asia")); 
+	USA->addNeighbor(Canada);
+	Canada->addNeighbor(USA);
+	China->addNeighbor(Japan);
+	China->addNeighbor(Korea);
+	Japan->addNeighbor(Korea);
+	Japan->addNeighbor(China);
+	Korea->addNeighbor(China);
+	Korea->addNeighbor(Japan);
+	India->addNeighbor(Vietnam);
+	Vietnam->addNeighbor(India);
+	cout<<USA->getNeigbors().at(0)->getName()<<endl;
 	cout << Japan->getArmies()<< endl;
 	cout<<Japan->getContinent().getName()<<endl;
     Lebron->addCountry(Canada);
@@ -31,9 +42,9 @@ int main(){
 	Lebron->getHand()->draw(myDeck);
 	Lebron->getHand()->display();
 	Lebron->reinforce();
-	//Lebron->attack();
-	//Lebron->fortify();
+	Lebron->attack();
+	Lebron->fortify();
 
     
-    //Lebron->getDice()->roll();
+    Lebron->getDice()->roll();
 }
