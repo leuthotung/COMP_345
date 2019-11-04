@@ -40,9 +40,26 @@ Country::Country() {
 
 }
 
+void Country::addArmies(int number) {
+    *numberOfArmies = *numberOfArmies +number;
+}
 
-Continent::Continent(string continentName) {
+int Country::getNumberOfArmies() {
+    return *numberOfArmies;
+}
+
+Player *Country::getOwner() {
+    return owner;
+}
+
+void Country::setOwner(Player *player) {
+    owner = player;
+}
+
+
+Continent::Continent(string continentName, int value) {
     this->name = new string(continentName);
+    this->value = new int(value);
 }
 
 Continent::~Continent() {
@@ -54,7 +71,7 @@ string Continent::getName() {
 }
 
 void Continent::setName(string continentName) {
-    this->name = &continentName;
+    *name = continentName;
 
 }
 
@@ -96,6 +113,14 @@ int Continent::getIndexOfCountry(Country *country) {
             return i;
         }
     }
+}
+
+vector<Country *> Continent::getCountries() {
+    return countries;
+}
+
+int Continent::getValue() {
+    return *value;
 }
 
 Map::Map() {
@@ -188,4 +213,8 @@ void Map::print() {
 
 vector<Continent *> Map::getContinents() {
     return this->continents;
+}
+
+vector<Country *> Map::getCountries() {
+    return this->countries;
 }

@@ -13,8 +13,9 @@
 using namespace std;
 
 // forward declaration (circular dependency)
-
-
+class Country;
+class Continent;
+class Map;
 class Player {
 
 private:
@@ -22,6 +23,8 @@ private:
 	vector<Country*> countries; //Collection of countries
 	Dice* dice; // Dice facility
 	Hand* hand;    //Hand of Risk cards
+	vector<Continent*> continentsOwned;
+	Map* gameMap;
 
 
 public:
@@ -30,10 +33,17 @@ public:
 	Player(string name);
 	Hand* getHand();
 	Dice* getDice();
+	Map* getMap();
+	void setMap(Map* map);
 	void addCountry(Country* country);
+	void removeCountry(Country* country);
 	void reinforce();
 	void attack();
 	void fortify();
+	string getName();
+	vector<Country*> getCountries();
+	bool hasOwnership(Continent continent);
+	int armiesFromContinent();
 };
 
 #endif

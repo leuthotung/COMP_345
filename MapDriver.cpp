@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "MapLoader.h"
-using namespace std;
+//using namespace std;
 
 /*int main(){
     Map a = readMapFile("../Maps/europe.map");

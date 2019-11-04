@@ -25,26 +25,19 @@ vector<int *> Dice::get_value() {
 }
 
 //ask user the number of dices to be rolled and put the rolled numbers into a vector container
-void Dice::roll() { //should return value of the roll and must be sorted
-    int numberOfDices = 0;
-    bool A = true;
-    while (A) {
-        cout << "How many dices would you like to roll? Please enter a number between 1 and 3: " << endl;
-        cin >> numberOfDices;
-        if (numberOfDices < 1 || numberOfDices > 3) {
-            cout << "Invalid number! Please try again." << endl;
-        } else {
-            A = false;
+void Dice::roll(int numberOfDices) {
+    value.clear();
+    for (int i = 0; i < numberOfDices; i++) {
+        value.push_back(new int(rand() % 6 + 1));//This generates a random number between 1 and 6
+    }
+    //sorting
+    for (int i = 0; i < numberOfDices; i++) {
+        for (int k = i; k < numberOfDices; k++) {
+            if(*value[i]<*value[k])
+                iter_swap(value.begin() + i, value.begin() + k);
         }
     }
-    *number = *number + numberOfDices;
-    for (int i = 0; i < numberOfDices; i++) {
-        srand(time(NULL));// This seeds the random number generator
-        value.push_back(new int(rand() % 6 + 1));//This generates a random number between 1 and 6
-        (*numbers[*(value.back()) - 1])++;
-    }
 }
-
 //return the rolled time for a given number of a dice object
 int Dice::get_rolled_times(int i) {
     if (i < 1 || i > 6) {

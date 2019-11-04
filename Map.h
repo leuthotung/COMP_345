@@ -5,8 +5,10 @@
 #define COMP345_MAP_H
 #include <iostream>
 #include <vector>
+#include "Player.h"
 using namespace std;
 class Continent;
+class Player;
 class Country{
 //Attributes
 private:
@@ -14,14 +16,20 @@ private:
     string* name;
     vector<Country*> neighbors;
     Continent* continent;
+    Player* owner;
 public:
     Country();
     Country(string name,  Continent* continent);
     ~Country();
     string getName();
     vector<Country*> getNeigbors();
+    int getNumberOfArmies();
+    Player* getOwner();
     void addNeighbor(Country* country);
     void setName(string countryName);
+    void addArmies(int number);
+    void setOwner(Player* owner);
+
 
 
 };
@@ -42,6 +50,8 @@ public:
     int getIndexOfCountry(Country *country);
     void print();
     vector<Continent*> getContinents();
+    vector<Country*> getCountries();
+
 
 };
 
@@ -50,8 +60,10 @@ class Continent{
 private:
     string* name;
     vector<Country*> countries;
+    int *value;
 public:
-    Continent(string continentName);
+
+    Continent(string continentName, int value);
     ~Continent();
     string getName();
     void setName(string continentName);
@@ -59,6 +71,9 @@ public:
     bool isConnected();
     Country* getCountrybyIndex(int index);
     int getIndexOfCountry(Country* country);
+    vector<Country*> getCountries();
+    int getValue();
+
 
 
 };

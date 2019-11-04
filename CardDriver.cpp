@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main()
+/*int main()
 {
 	Hand* hand = new Hand();
 	hand->display();
@@ -39,4 +39,4 @@ int main()
 	myDeck->display();
 
 	return 0;
-}
+}*/

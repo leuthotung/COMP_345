@@ -104,7 +104,7 @@ Map readMapFile(string file) {
                //cout << line << endl;
                string continent = line.substr(0, line.find(" "));
                int value = stoi(line.substr(line.find(" ") + 1)); //will take care of the value later
-               map.addContinent(new Continent(continent));
+               map.addContinent(new Continent(continent,value));
                //cout<<continent<<" and " << value <<endl;
            }
            //Find the [countries[ section
