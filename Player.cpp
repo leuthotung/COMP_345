@@ -191,11 +191,6 @@ void Player::attack() {
 				}
 			}
 			dice->roll(dice1);
-			cout << "Your dice value:" << endl;
-			for (int i = 0; i < dice->get_value().size(); i++) {
-				cout << *dice->get_value()[i] << " ";
-			}
-			cout << endl;
 			cout << "defender turn" << endl;
 			while (true) 
 			{
@@ -229,6 +224,11 @@ void Player::attack() {
 					break;
 			}
 			countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getPlayer()->getDice()->roll(dice2);
+			cout << "Your dice value:" << endl;
+			for (int i = 0; i < dice->get_value().size(); i++) {
+				cout << *dice->get_value()[i] << " ";
+			}
+			cout << endl;
 			cout << "Defender dice value:" << endl;
 			for (int i = 0; i < countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getPlayer()->getDice()->get_value().size(); i++) {
 				cout << *(countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getPlayer()->getDice()->get_value()[i]) << " ";
