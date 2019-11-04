@@ -7,6 +7,7 @@
 #include <vector>
 using namespace std;
 class Continent;
+class Player;
 class Country{
 //Attributes
 private:
@@ -14,6 +15,7 @@ private:
     string* name;
     vector<Country*> neighbors;
     Continent* continent;
+	Player* myplayer;
 public:
     Country();
     Country(string name,  Continent* continent);
@@ -23,6 +25,8 @@ public:
     void addNeighbor(Country* country);
     void setName(string countryName);
 	Continent getContinent();//assignment2 ok
+	void setPlayer(Player playerName);
+	Player* getPlayer();
 	void addArmy(int changeArmy);
 	int getArmies();
 };

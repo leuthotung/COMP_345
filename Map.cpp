@@ -6,19 +6,26 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-
+#include "Player.h"
 
 using namespace std;
 Country::Country(string countryName ,Continent* continentName) {
     this->name = new string(countryName);
     this->numberOfArmies = new int(0);
     this->continent = continentName;
-
+	this->myplayer = new Player();
 }
 string Country::getName() {
     return *name;
 }
 
+Player* Country::getPlayer() {
+	return myplayer;
+}
+
+void Country::setPlayer(Player playerName) {
+	*myplayer = playerName;
+}
 
 void Country::setName(string countryName) {
     this->name = &countryName;

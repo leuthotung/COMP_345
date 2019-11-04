@@ -36,7 +36,9 @@ public:
 	Player(string name);
 	Hand* getHand();
 	Dice* getDice();
+	string getName();
 	void addCountry(Country* country);
+	void removeCountry(Country* country);
 	void reinforce();
 	void attack();
 	void fortify();

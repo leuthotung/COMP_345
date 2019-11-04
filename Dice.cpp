@@ -26,7 +26,21 @@ vector<int *> Dice::get_value() {
 }
 
 //ask user the number of dices to be rolled and put the rolled numbers into a vector container
-void Dice::roll() {
+void Dice::roll(int numberOfDices) {
+	value.clear();
+	for (int i = 0; i < numberOfDices; i++) {
+		value.push_back(new int(rand() % 6 + 1));//This generates a random number between 1 and 6
+	}
+	for (int i = 0; i < numberOfDices; i++) {
+		for (int k = i; k < numberOfDices; k++) {
+			if(*value[i]<*value[k])
+			iter_swap(value.begin() + i, value.begin() + k);
+		}
+	}
+
+
+	
+	/*
     int numberOfDices = 0;
     bool A = true;
     while (A) {
@@ -44,6 +58,7 @@ void Dice::roll() {
         value.push_back(new int(rand() % 6 + 1));//This generates a random number between 1 and 6
         (*numbers[*(value.back()) - 1])++;
     }
+	*/
 }
 
 //return the rolled time for a given number of a dice object

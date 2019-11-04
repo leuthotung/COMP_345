@@ -3,9 +3,13 @@
 //
 
 #include "Player.h"
+#include <time.h>
 
 int main(){
+
+	srand(time(0));// This seeds the random number generator
     Player* Lebron =  new Player("Lebron");
+	Player* abc = new Player("abc");
     Country* Canada = new Country("Canada",new Continent("northAmerica"));
 	Country* USA = new Country("USA", new Continent("northAmerica"));
 	Country* China = new Country("China", new Continent("asia"));
@@ -22,17 +26,19 @@ int main(){
 	Korea->addNeighbor(China);
 	Korea->addNeighbor(Japan);
 	India->addNeighbor(Vietnam);
+	Japan->addArmy(10);
 	Vietnam->addNeighbor(India);
-	cout<<USA->getNeigbors().at(0)->getName()<<endl;
-	cout << Japan->getArmies()<< endl;
-	cout<<Japan->getContinent().getName()<<endl;
     Lebron->addCountry(Canada);
 	Lebron->addCountry(USA);
 	Lebron->addCountry(China);
-    Lebron->addCountry(Japan);
+	Lebron->addCountry(Japan);
+	Lebron->removeCountry(Japan);
+    abc->addCountry(Japan);
 	Lebron->addCountry(Korea);
 	Lebron->addCountry(India);
 	Lebron->addCountry(Vietnam);
+	cout <<Japan->getPlayer()->getName()<< endl;
+	cout << "12345" << endl;
 	Deck* myDeck = new Deck(49);
 	//cout <<Lebron->continentCheck()<< endl;
 	Lebron->getHand()->draw(myDeck);
@@ -44,7 +50,9 @@ int main(){
 	Lebron->reinforce();
 	Lebron->attack();
 	Lebron->fortify();
-
-    
-    Lebron->getDice()->roll();
+	
+/*	Lebron->getDice()->roll();
+	for (int i = 0; i < Lebron->getDice()->get_value().size(); i++) {
+		cout << *(Lebron->getDice()->get_value()[i]) << endl;
+	}*/
 }
