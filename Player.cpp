@@ -62,28 +62,34 @@ vector<Country*> Player::getCountries(){
     return countries;
 }
 
-bool Player::hasOwnership(Continent continent) {
-    sort(this->getCountries().begin(),this->getCountries().end());
-    sort(continent.getCountries().begin(),continent.getCountries().end());
-    return includes(this->getCountries().begin(),this->getCountries().end(),continent.getCountries().begin(),continent.getCountries().end());
+bool Player::hasOwnership(Continent* continent) {
+    int countryCounter = 0;
+    for(int i = 0; i< this->countries.size(); i++){
+        if(countries[i]->getContinent() == continent)
+            countryCounter++;
+    }
+    return(countryCounter == continent->getCountries().size());
 }
 
 int Player::armiesFromContinent() {
     int armiesToAdd = 0;
     vector<Continent*> continents=  this->getMap()->getContinents();
     for(int i = 0; i < continents.size(); i++){
-        if(this->hasOwnership(*continents[i])){
+        if(this->hasOwnership(continents[i])){
             armiesToAdd += continents[i]->getValue();
-            cout<<continents[i]->getValue()<<" armies added since Player owns this Continent: "<<continents[i]->getName();
+            cout<<continents[i]->getValue()<<" armies added since "<< this->getName() <<" owns this Continent: "<<continents[i]->getName();
         }
     }
+    return armiesToAdd;
 
 }
 void Player::reinforce() {
     int armyCounter = 0;
     bool exchangeFlag = false;
     cout << "------------------REINFORCE PHASE START-------------------------" << endl;
-    armyCounter += this->countries.size() / 3;
+    int armiesFromNumberOfCountries = this->countries.size()/3;
+    cout<< this->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< countries.size()<< " countries"<<endl;
+    armyCounter += armiesFromNumberOfCountries;
     armyCounter += this->armiesFromContinent();
     cout << "Do you want to exchange card??(intput 0(false) or 1(true))" << endl;
     while(true){
@@ -95,14 +101,15 @@ void Player::reinforce() {
             cin.ignore();
         }
     }
-    if (exchangeFlag == true) {
+    if (exchangeFlag) {
         armyCounter += this->hand->exchange();
     }
 
-    cout << name << " will get " <<  armyCounter << " armies  in this reinforcement stage"<<endl;
-    bool indexValid = false;
-    int countryIndex;
+    cout << this->getName() << " will get " <<  armyCounter << " armies  in this reinforcement stage"<<endl;
+
     while(armyCounter>0) {
+        bool indexValid = false;
+        int countryIndex;
         cout << "You have  " << armyCounter << " armies left" << endl;
         while (!indexValid) {
 
@@ -167,7 +174,7 @@ void Player::attack() {
         }
     }
 
-    if(attackFlag == true){
+    while(attackFlag){
         cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
         for (int i = 0; i < countries.size(); i++) {
             cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;
@@ -180,6 +187,11 @@ void Player::attack() {
                 cout << "Invalid input,please input valid index of source country who have enough armies(>=2)" << endl;
             else
                 break;
+        }
+        cout << "--------------This is neighbors information of the source country-----------------" << endl;
+        for (int i = 0; i < countries[sourceCountryIndex]->getNeigbors().size(); i++) {
+            cout << "Index" << i << " Country:" << countries[sourceCountryIndex]->getNeigbors().at(i)->getName() << "  Army:" << countries[sourceCountryIndex]->getNeigbors().at(i)->getNumberOfArmies() <<
+                 "  Owner: " << countries[sourceCountryIndex]->getNeigbors().at(i)->getOwner()->getName() << endl;
         }
         cout << "Choose the index of TARGET country " << endl;
         while (true) {
@@ -204,7 +216,7 @@ void Player::attack() {
                 break;
             }
             if (countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getNumberOfArmies() == 0) {
-                cout << "there is no army left in defending country" << endl;
+                cout << "There is no army left in defending country" << endl;
                 countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->removeCountry(
                         countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
                 this->addCountry(countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
@@ -220,7 +232,7 @@ void Player::attack() {
                     cin.ignore();
                 }
             }
-            if (continueFlag == false)
+            if (!continueFlag)
                 break;
             int numberOfAttackerDices = 0, numberOfDefenderDices = 0;
             cout << "ATTACKER TURN TO CHOOSE NUMBER OF DICE" << endl;
@@ -299,11 +311,23 @@ void Player::attack() {
             countries[sourceCountryIndex]->addArmies(-loseCounter);
             countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(-winCounter);
             }
+            cout << "Do you want to continue attack??(intput 0(false) or 1(true))" << endl;
+            while (true) {
+                if (cin >> attackFlag)
+                    break;
+                else {
+                    cout << "invalid input" << endl;
+                    cin.clear();
+                    cin.ignore();
+                }
+            }
+            if (!continueFlag)
+                break;
     }
-    else{
+
         cout << "--------------------ATTACK PHASE END--------------------------" << endl;
 
-    }
+
 
 }
 
@@ -323,7 +347,7 @@ void Player::fortify() {
             cin.ignore();
         }
     }
-    if (fortifyFlag == true) {
+    if (fortifyFlag) {
         cout << "--------------------This is your information-----------------------" << endl;
         for (int i = 0; i < countries.size(); i++) {
             cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;

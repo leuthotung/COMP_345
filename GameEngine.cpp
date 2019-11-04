@@ -30,26 +30,6 @@ void GameEngine::gameInit(vector<string> maps) {
     int numberOfPlayers;
     bool valid1 = true;
     bool valid = true;
-    //Choose number of Players
-    while (valid1) {
-        cout << "Please enter valid number of players (between 2-6)" << endl;
-        cin >> numberOfPlayers;
-        if(numberOfPlayers>=2 &&numberOfPlayers <=6)
-            valid1 = false;
-        else{
-            cout<<"Invalid number of players! Please choose again (between 2-6)"<<endl;
-        }
-    }
-    vector<Player*> gamePlayers;
-    //Prompt Players their names
-    for (int i = 0; i< numberOfPlayers; i++){
-        string name;
-        cout<<"Please enter name of player " <<i<<": "<<endl;
-        cin>>name;
-        gamePlayers.push_back(new Player(name));
-
-    }
-    this->setPlayers(gamePlayers);
     //Choose the map
     //For now invalid maps will just result the program to end , will have the plan to handle it later
     while(valid) {
@@ -69,11 +49,29 @@ void GameEngine::gameInit(vector<string> maps) {
             else{
                 cout<<"The number is out of index please choose again"<<endl;
             }
-
-
-
+    }
+    //Choose number of Players
+    while (valid1) {
+        cout << "Please enter valid number of players (between 2-6)" << endl;
+        cin >> numberOfPlayers;
+        if(numberOfPlayers>=2 &&numberOfPlayers <=6)
+            valid1 = false;
+        else{
+            cout<<"Invalid number of players! Please choose again (between 2-6)"<<endl;
+        }
+    }
+    vector<Player*> gamePlayers;
+    //Prompt Players their names
+    for (int i = 0; i< numberOfPlayers; i++){
+        string name;
+        cout<<"Please enter name of player " <<i<<": "<<endl;
+        cin>>name;
+        Player*player = new Player(name);
+        player->setMap(this->gameMap);
+        gamePlayers.push_back(player);
 
     }
+    this->setPlayers(gamePlayers);
 
 }
 //Start-up phase
@@ -88,6 +86,7 @@ void GameEngine::gameStartUp() {
             if(count == numberOfCountry)
                 break;
             players[i]->addCountry(gameMap->getCountries()[count]);
+            gameMap->getCountries()[count]->setOwner(players[i]);
             count++;
         }
     }
@@ -115,12 +114,11 @@ void GameEngine::gameStartUp() {
                 bool indexValid = false;
                 int countryIndex;
                 while (!indexValid) {
-
-                    cout << players[i]->getName() << " Please choose the index of country you want to add armies"
-                         << endl;
+                    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
                     for (int j = 0; j < players[i]->getCountries().size(); j++) {
-                        cout << "Index" << j << " Country:" << players[i]->getCountries()[j]->getName() << "  Army:" << players[i]->getCountries()[j]->getNumberOfArmies() << endl;
+                        cout << "Index " << j << ": Country " << players[i]->getCountries()[j]->getName() << "  Army:" << players[i]->getCountries()[j]->getNumberOfArmies() << endl;
                     }
+                    cout << players[i]->getName() << " Please choose the index of country you want to add armies ";
                     cin >> countryIndex;
 
                     if (countryIndex < 0 || countryIndex > players[i]->getCountries().size()-1  ) {
@@ -161,7 +159,7 @@ void GameEngine::gameLoop() {
     while(!gameFinish){
         for(int i = 0; i< players.size(); i++){
             players[i]->reinforce();
-           // players[i]->attack();
+            players[i]->attack();
             players[i]->fortify();
             if(players[i]->getCountries().size() == gameMap->getCountries().size()){
                 cout<<players[i]->getName()<< " WON THE GAME !! " ;

@@ -25,6 +25,7 @@ public:
     vector<Country*> getNeigbors();
     int getNumberOfArmies();
     Player* getOwner();
+    Continent* getContinent();
     void addNeighbor(Country* country);
     void setName(string countryName);
     void addArmies(int number);

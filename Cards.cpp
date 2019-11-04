@@ -121,7 +121,7 @@ Hand::Hand()
 	this->numOfInf = new int(0);
 	this->totalNumOfCards = new int(0);
 	handDeck = new vector<Card>;
-	cout << "hand created" << endl;
+	//cout << "hand created" << endl;
 }
 
 

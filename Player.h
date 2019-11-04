@@ -42,7 +42,7 @@ public:
 	void fortify();
 	string getName();
 	vector<Country*> getCountries();
-	bool hasOwnership(Continent continent);
+	bool hasOwnership(Continent* continent);
 	int armiesFromContinent();
 };
 

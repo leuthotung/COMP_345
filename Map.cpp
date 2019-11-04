@@ -56,6 +56,10 @@ void Country::setOwner(Player *player) {
     owner = player;
 }
 
+Continent *Country::getContinent() {
+    return continent;
+}
+
 
 Continent::Continent(string continentName, int value) {
     this->name = new string(continentName);
