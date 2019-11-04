@@ -1,12 +1,12 @@
 //
 // Created by tungleu on 10/11/19.
 //
-
+#include "MapLoader.h"
 #include "Player.h"
 #include <time.h>
 
-int main(){
 
+int main(){
 	srand(time(0));// This seeds the random number generator
     Player* Lebron =  new Player("Lebron");
 	Player* abc = new Player("abc");
@@ -31,16 +31,11 @@ int main(){
     Lebron->addCountry(Canada);
 	Lebron->addCountry(USA);
 	Lebron->addCountry(China);
-	Lebron->addCountry(Japan);
-	Lebron->removeCountry(Japan);
-    abc->addCountry(Japan);
+	abc->addCountry(Japan);
 	Lebron->addCountry(Korea);
 	Lebron->addCountry(India);
 	Lebron->addCountry(Vietnam);
-	cout <<Japan->getPlayer()->getName()<< endl;
-	cout << "12345" << endl;
 	Deck* myDeck = new Deck(49);
-	//cout <<Lebron->continentCheck()<< endl;
 	Lebron->getHand()->draw(myDeck);
 	Lebron->getHand()->draw(myDeck);
 	Lebron->getHand()->draw(myDeck);
@@ -50,9 +45,5 @@ int main(){
 	Lebron->reinforce();
 	Lebron->attack();
 	Lebron->fortify();
-	
-/*	Lebron->getDice()->roll();
-	for (int i = 0; i < Lebron->getDice()->get_value().size(); i++) {
-		cout << *(Lebron->getDice()->get_value()[i]) << endl;
-	}*/
 }
+
