@@ -21,13 +21,13 @@ private:
 
 public:
     GameEngine();
-    GameEngine(vector<Player*> players, string map);
     ~GameEngine();
     vector<string> getMapFiles(string directory);
     Map* getMap();
     vector<Player*> getPlayers();
     void setMap(Map* map);
     void setPlayers(vector<Player*> gamePlayers);
+    void gameStartUp2();
     void gameStartUp();
     void gameLoop();
     void gameInit(vector<string> maps);

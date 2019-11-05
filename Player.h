@@ -44,6 +44,7 @@ public:
 	vector<Country*> getCountries();
 	bool hasOwnership(Continent* continent);
 	int armiesFromContinent();
+	void showInformation();
 };
 
 #endif

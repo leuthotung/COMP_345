@@ -3,19 +3,44 @@
 //
 #include "MapLoader.h"
 #include "Player.h"
-/*
+#include "GameEngine.h"
 int main() {
-    Player *Lebron = new Player("Lebron");
-    Lebron->attack();
-    Lebron->fortify();
-    Lebron->reinforce();
-    Country *Canada = new Country("Canada", new Continent("A"));
 
-    Country *Japan = new Country("Japan", new Continent("B"));
+    Map *map = new Map();
+    *map = readMapFile("../Maps/europe.map");
+    Player* Tung = new Player("Tung");
+    Tung->setMap(map);
+    Player* Young = new Player("Young");
+    Tung->setMap(map);
+    Player* Yifan = new Player("Yifan");
+    Tung->setMap(map);
+    vector<Player*> players = {Tung, Young, Yifan};
+    //Add 10 armies to each country
+    for(int i = 0; i< map->getCountries().size();i++){
+        map->getCountries()[i]->addArmies(10);
+    }
+    int count = 0;
+    //Assign armies
+    while(count< map->getCountries().size()){
+        for(int i = 0; i< players.size();i++){
+            if(count == map->getCountries().size())
+                break;
+            players[i]->addCountry(map->getCountries()[count]);
+            map->getCountries()[count]->setOwner(players[i]);
+            count++;
+        }
+    }
+    //infinite loop for demo
+    while(true){
+        for(int i = 0; i< players.size();i++){
+            players[i]->reinforce();
+            players[i]->attack();
+            players[i]->fortify();
+        }
+    }
 
-    Lebron->addCountry(Canada);
-    Lebron->addCountry(Japan);
-    Lebron->getHand()->display();
-    Lebron->getDice()->roll();
 
-}*/
+
+
+
+}

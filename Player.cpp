@@ -44,9 +44,6 @@ void Player::removeCountry(Country *country) {
 
 }
 
-
-
-
 Dice *Player::getDice() {
     return this->dice;
 }
@@ -61,7 +58,13 @@ string Player::getName() {
 vector<Country*> Player::getCountries(){
     return countries;
 }
-
+// This method show current information of the countries this Player owns
+void Player::showInformation() {
+    for (int i = 0; i < countries.size(); i++) {
+        cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;
+    }
+}
+//This method checks if player has ownership of the continent
 bool Player::hasOwnership(Continent* continent) {
     int countryCounter = 0;
     for(int i = 0; i< this->countries.size(); i++){
@@ -70,7 +73,7 @@ bool Player::hasOwnership(Continent* continent) {
     }
     return(countryCounter == continent->getCountries().size());
 }
-
+//This method returns number of armies that Player can have from occupying continents
 int Player::armiesFromContinent() {
     int armiesToAdd = 0;
     vector<Continent*> continents=  this->getMap()->getContinents();
@@ -105,7 +108,7 @@ void Player::reinforce() {
         armyCounter += this->hand->exchange();
     }
 
-    cout << this->getName() << " will get " <<  armyCounter << " armies  in this reinforcement stage"<<endl;
+    cout << this->getName() << " will have " <<  armyCounter << " armies  in this reinforcement stage"<<endl;
 
     while(armyCounter>0) {
         bool indexValid = false;
@@ -115,10 +118,7 @@ void Player::reinforce() {
 
             cout << this->getName() << " Please choose the index of country you want to add armies"
                  << endl;
-            for (int j = 0; j < this->getCountries().size(); j++) {
-                cout << "Index" << j << " Country:" << countries[j]->getName() << "  Army:"
-                     << countries[j]->getNumberOfArmies() << endl;
-            }
+            this->showInformation();
             cin >> countryIndex;
 
             if (countryIndex < 0 || countryIndex > this->getCountries().size() - 1) {
@@ -146,9 +146,7 @@ void Player::reinforce() {
     }
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
     cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    for (int i = 0; i < countries.size(); i++) {
-        cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;
-    }
+    this->showInformation();
     cout << "----------------------------------------------------------------------" << endl;
     cout << "--------------------REINFORCE PHASE END--------------------------" << endl;
 
@@ -176,9 +174,7 @@ void Player::attack() {
 
     while(attackFlag){
         cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-        for (int i = 0; i < countries.size(); i++) {
-            cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;
-        }
+        this->showInformation();
         cout << "----------------------------------------------------------------------" << endl;
         cout << "Choose the index of SOURCE country " << endl;
         while (true) {
@@ -349,9 +345,7 @@ void Player::fortify() {
     }
     if (fortifyFlag) {
         cout << "--------------------This is your information-----------------------" << endl;
-        for (int i = 0; i < countries.size(); i++) {
-            cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;
-        }
+        this->showInformation();
         cout << "----------------------------------------------------------------------" << endl;
         cout<<"Choose the index of SOURCE country "<<endl;
         while (true) {
@@ -390,10 +384,7 @@ void Player::fortify() {
         countries[sourceCountryIndex]->addArmies(-changeArmy);
         countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
         cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-        for (int i = 0; i < countries.size(); i++) {
-            cout << "Index" << i << " Country:" << countries[i]->getName()
-                 << "  Army:" << countries[i]->getNumberOfArmies() << endl;
-        }
+        this->showInformation();
         cout << "----------------------------------------------------------------------" << endl;
         cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
     }
@@ -404,6 +395,8 @@ void Player::fortify() {
 
 
 }
+
+
 
 
 
