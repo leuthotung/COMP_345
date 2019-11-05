@@ -12,7 +12,7 @@ int main() {
     GameEngine game = GameEngine();
     game.gameInit(game.getMapFiles("../Maps"));
     game.gameStartUp();
-    game.gameLoop();
+    //game.gameLoop();
 
 
 

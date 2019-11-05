@@ -222,7 +222,7 @@ void Player::attack() {
                 this->addCountry(countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
                 break;
             }
-            cout << "Do you want to continue attack??(intput 0(false) or 1(true))" << endl;
+            cout << "Do you want to continue attack current country?(intput 0(false) or 1(true))" << endl;
             while (true) {
                 if (cin >> continueFlag)
                     break;
@@ -311,7 +311,7 @@ void Player::attack() {
             countries[sourceCountryIndex]->addArmies(-loseCounter);
             countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(-winCounter);
             }
-            cout << "Do you want to continue attack??(intput 0(false) or 1(true))" << endl;
+            cout << "Do you want to attack again ?(intput 0(false) or 1(true))" << endl;
             while (true) {
                 if (cin >> attackFlag)
                     break;
@@ -321,7 +321,7 @@ void Player::attack() {
                     cin.ignore();
                 }
             }
-            if (!continueFlag)
+            if (!attackFlag)
                 break;
     }
 
