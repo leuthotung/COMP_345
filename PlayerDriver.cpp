@@ -11,9 +11,9 @@ int main() {
     Player* Tung = new Player("Tung");
     Tung->setMap(map);
     Player* Young = new Player("Young");
-    Tung->setMap(map);
+    Young->setMap(map);
     Player* Yifan = new Player("Yifan");
-    Tung->setMap(map);
+    Yifan->setMap(map);
     vector<Player*> players = {Tung, Young, Yifan};
     //Add 10 armies to each country
     for(int i = 0; i< map->getCountries().size();i++){
@@ -31,6 +31,7 @@ int main() {
         }
     }
     //infinite loop for demo
+   // Deck *deck = new Deck(map->getCountries().size());
     while(true){
         for(int i = 0; i< players.size();i++){
             players[i]->reinforce();

@@ -216,6 +216,7 @@ void Player::attack() {
                 countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->removeCountry(
                         countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
                 this->addCountry(countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
+                this->getHand()->draw(gameMap->getDeck());
                 break;
             }
             cout << "Do you want to continue attack current country?(intput 0(false) or 1(true))" << endl;

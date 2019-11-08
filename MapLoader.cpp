@@ -144,6 +144,7 @@ Map readMapFile(string file) {
                }
 
            }
+           map.setDeck(map.getCountries().size());
 
            return map;
        }

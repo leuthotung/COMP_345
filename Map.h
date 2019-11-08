@@ -9,6 +9,7 @@
 using namespace std;
 class Continent;
 class Player;
+class Deck;
 class Country{
 //Attributes
 private:
@@ -39,11 +40,14 @@ class Map{
 private:
     vector<Country*> countries;
     vector<Continent*> continents;
+    Deck* deck;
 public:
     Map();
     ~Map();
     Continent* getContinentbyIndex(int index);
     Country* getCountrybyIndex(int index);
+    Deck* getDeck();
+    void setDeck(int numberOfCountries);
     void addCountry(Country* country);
     void addContinent(Continent* continent);
     void showMap();

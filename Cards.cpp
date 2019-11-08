@@ -246,8 +246,8 @@ int Hand::exchange()
 }
 
 void Hand::draw(Deck *d) {
-	if (*totalNumOfCards < 5) 
-	{
+	/*if (*totalNumOfCards < 5)
+	{*/
 		Card c = d->draw();
 		if (c.getType() == infantry) {
 			cout << "The drawing Card is infantry" << endl;
@@ -263,8 +263,8 @@ void Hand::draw(Deck *d) {
 		}	
 		*totalNumOfCards += 1;
 		handDeck->push_back(c);// push the card to handVector
-	}
-	else//the num of cards in hand are above 5
+	/*}*/
+/*	else//the num of cards in hand are above 5
 	{
 		cout<<"there are 5 cards in hand, exchange automatically"<<endl;
 		exchange();
@@ -283,7 +283,7 @@ void Hand::draw(Deck *d) {
 		}
 		*totalNumOfCards += 1;
 		handDeck->push_back(c);
-	}
+	}*/
 }
 
 int Hand::getTotalCards() {

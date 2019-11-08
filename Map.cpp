@@ -222,3 +222,11 @@ vector<Continent *> Map::getContinents() {
 vector<Country *> Map::getCountries() {
     return this->countries;
 }
+
+void Map::setDeck(int numberOfCountries) {
+    deck = new Deck(numberOfCountries);
+}
+
+Deck *Map::getDeck() {
+    return deck;
+}
