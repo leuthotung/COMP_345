@@ -100,8 +100,7 @@ void GameEngine::gameStartUp() {
     int armiesOwned = numberOfArmies;
     while(armiesOwned>0) {
         for (int i = 0; i < numberOfPlayers; i++) {
-
-            //if(armiesOwned>0) {
+            cout<< "------------------------"<<players[i]->getName()<<" TURN ------------------"<<endl;
             cout << players[i]->getName() << " has " << armiesOwned << " left" << endl;
             bool indexValid = false;
             int countryIndex;
@@ -117,31 +116,13 @@ void GameEngine::gameStartUp() {
                 if (countryIndex < 0 || countryIndex > players[i]->getCountries().size() - 1) {
                     cout << "Invalid index, please choose again!" << endl;
                 } else {
-                    //This version ask player to fill in armies until it ends, but it wont be round robin fashion..
-                    /*bool validNumber = false;
-                    while(!validNumber) {
-                        int numberOfArmiesToAdd;
-                        cout << "Please choose number of armies you want to add ";
-                        cin >> numberOfArmiesToAdd;
-                        if (numberOfArmiesToAdd > armiesOwned) {
-                            cout << "Please add valid number of armies!! Choose again" << endl;
-                        } else {
-                            cout << "Added " << numberOfArmiesToAdd << " army to country "
-                                 << players[i]->getCountries()[countryIndex]->getName()
-                                 << endl;
-                            players[i]->getCountries()[countryIndex]->addArmies(numberOfArmiesToAdd);
-                            indexValid = true;
-                            armiesOwned = armiesOwned - numberOfArmiesToAdd;
-                            validNumber = true;
-                        }
-                    }*/
                     players[i]->getCountries()[countryIndex]->addArmies(1);
 
                     indexValid = true;
 
                 }
             }
-            //}
+
         }
         armiesOwned--;
     }
@@ -233,6 +214,7 @@ void GameEngine::gameStartUp2() {
     cout<<"EACH PLAYER WILL HAVE "<< numberOfArmies<<" NUMBER OF ARMIES"<<endl;
 
         for (int i = 0; i < numberOfPlayers; i++) {
+            cout<< "------------------------"<<players[i]->getName()<<" TURN ------------------"<<endl;
             int armiesOwned = numberOfArmies;
             while (armiesOwned > 0) {
                 cout << players[i]->getName() << " has " << armiesOwned << " left" << endl;

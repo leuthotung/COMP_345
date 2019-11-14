@@ -31,7 +31,8 @@ int main() {
         }
     }
     //infinite loop for demo
-   // Deck *deck = new Deck(map->getCountries().size());
+   // Deck *deck = new Deck(map->getCountries().size());1
+
     while(true){
         for(int i = 0; i< players.size();i++){
             players[i]->reinforce();
