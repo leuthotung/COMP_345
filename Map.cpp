@@ -230,3 +230,13 @@ void Map::setDeck(int numberOfCountries) {
 Deck *Map::getDeck() {
     return deck;
 }
+
+Country *Map::getCountrybyName(string name) {
+    Country * country;
+    for(int i = 0; i< this->getCountries().size();i++){
+        if(this->getCountries()[i]->getName() == name){
+            country = this->getCountries()[i];
+        }
+    }
+    return country;
+}
