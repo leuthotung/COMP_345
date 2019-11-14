@@ -2,6 +2,8 @@
 #include <string>
 #include "Map.h"
 #include "GameEngine.h"
+#include   <windows.h>  
+
 using namespace std;
 
 Player::Player(string name) {
@@ -102,6 +104,7 @@ void Player::reinforce() {
     //cout<< this->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< countries.size()<< " countries"<<endl;
     armyCounter += armiesFromNumberOfCountries;
     armyCounter += this->armiesFromContinent();
+
     cout << "Do you want to exchange card??(intput 0(false) or 1(true))" << endl;
     while(true){
         if (cin >> exchangeFlag)
@@ -183,7 +186,6 @@ void Player::attack() {
     int winCounter=0;
     int loseCounter = 0;
 	
-    cout << "--------------------ATTACK PHASE START--------------------------" << endl;
     cout << "Do you want to attack? (intput 0(false) or 1(true) )" << endl;
     while (true) {
         if (cin >> attackFlag)
@@ -196,9 +198,7 @@ void Player::attack() {
     }
 
     while(attackFlag){
-        cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-        this->showInformation();
-        cout << "----------------------------------------------------------------------" << endl;
+        Notify();
         cout << "Choose the index of SOURCE country " << endl;
         while (true) {
             cin >> sourceCountryIndex;
@@ -345,7 +345,7 @@ void Player::attack() {
                 break;
     }
 
-        cout << "--------------------ATTACK PHASE END--------------------------" << endl;
+		system("CLS");
 
 
 
@@ -353,10 +353,10 @@ void Player::attack() {
 
 void Player::fortify() {
     bool fortifyFlag = false;
+	bool nextPhaseFlag = false;
     int sourceCountryIndex = 0;
     int targetCountryIndex = 0;
     int changeArmy = 0;
-    cout << "--------------------FORTIFICATION PHASE START--------------------------" << endl;
     cout << "Do you want to fortify? (intput 0(false) or 1(true) )" << endl;
     while (true) {
         if (cin >> fortifyFlag)
@@ -368,9 +368,7 @@ void Player::fortify() {
         }
     }
     if (fortifyFlag) {
-        cout << "--------------------This is your information-----------------------" << endl;
-        this->showInformation();
-        cout << "----------------------------------------------------------------------" << endl;
+		Notify();
         cout<<"Choose the index of SOURCE country "<<endl;
         while (true) {
             cin >> sourceCountryIndex;
@@ -407,13 +405,29 @@ void Player::fortify() {
         }
         countries[sourceCountryIndex]->addArmies(-changeArmy);
         countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
-        cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-        this->showInformation();
-        cout << "----------------------------------------------------------------------" << endl;
-        cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
+		Notify();
+		while (true) {
+			cout << "Do you want to end this phase? input 0(false) or 1(true)" << endl;
+			while (true) {
+				if (cin >> nextPhaseFlag)
+					break;
+				else {
+					cout << "invalid input" << endl;
+					cin.clear();
+					cin.ignore();
+				}
+			}
+			if (nextPhaseFlag == true)
+			{
+				system("CLS");
+				break;
+			}
+			else
+				cout << "PLEASE END YOUR PHASE AFTER CHECKING YOUR INFORMATION" << endl;
+		}
     }
     else {
-        cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
+		system("CLS");
 
     }
 
