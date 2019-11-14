@@ -3,50 +3,50 @@
 //
 #include "MapLoader.h"
 #include "Player.h"
-#include <time.h>
+#include "GameObserver.h"
+#include "GameEngine.h"
+
+int main() {
+
+    Map *map = new Map();
+    *map = readMapFile("../Maps/europe.map");
+    Player* Tung = new Player("Tung");
+    Tung->setMap(map);
+    Player* Young = new Player("Young");
+    Young->setMap(map);
+    Player* Yifan = new Player("Yifan");
+    Yifan->setMap(map);
+    vector<Player*> players = {Tung, Young, Yifan};
+	GameObserver* TungObserver = new GameObserver(Tung);
+	GameObserver* YoungObserver = new GameObserver(Young);
+	GameObserver* YifanObserver = new GameObserver(Yifan);
+    //Add 10 armies to each country
+    for(int i = 0; i< map->getCountries().size();i++){
+        map->getCountries()[i]->addArmies(10);
+    }
+    int count = 0;
+    //Assign armies
+    while(count< map->getCountries().size()){
+        for(int i = 0; i< players.size();i++){
+            if(count == map->getCountries().size())
+                break;
+            players[i]->addCountry(map->getCountries()[count]);
+            map->getCountries()[count]->setOwner(players[i]);
+            count++;
+        }
+    }
+    //infinite loop for demo
+   // Deck *deck = new Deck(map->getCountries().size());
+    while(true){
+        for(int i = 0; i< players.size();i++){
+            players[i]->reinforce();
+            players[i]->attack();
+            players[i]->fortify();
+        }
+    }
 
 
-int main(){
-	srand(time(0));// This seeds the random number generator
-    Player* Lebron =  new Player("Lebron");
-	Player* abc = new Player("abc");
-    Country* Canada = new Country("Canada",new Continent("northAmerica"));
-	Country* USA = new Country("USA", new Continent("northAmerica"));
-	Country* China = new Country("China", new Continent("asia"));
-    Country* Japan = new Country("Japan", new Continent("asia"));
-	Country* Korea = new Country("Korea", new Continent("asia"));
-    Country* India = new Country("India", new Continent("asia"));
-    Country* Vietnam = new Country("Vietnam", new Continent("asia")); 
-	USA->addNeighbor(Canada);
-	Canada->addNeighbor(USA);
-	China->addNeighbor(Japan);
-	China->addNeighbor(Korea);
-	China->addNeighbor(India);
-	Japan->addNeighbor(Korea);
-	Japan->addNeighbor(China);
-	Korea->addNeighbor(China);
-	Korea->addNeighbor(Japan);
-	India->addNeighbor(China);
-	India->addNeighbor(Vietnam);
-	Japan->addArmy(5); 
-	India->addArmy(5);
-	Vietnam->addNeighbor(India);
-    Lebron->addCountry(Canada);
-	Lebron->addCountry(USA);
-	Lebron->addCountry(China);
-	abc->addCountry(Japan);
-	Lebron->addCountry(Korea);
-	abc->addCountry(India);
-	Lebron->addCountry(Vietnam);
-	Deck* myDeck = new Deck(49);
-	Lebron->getHand()->draw(myDeck);
-	Lebron->getHand()->draw(myDeck);
-	Lebron->getHand()->draw(myDeck);
-	Lebron->getHand()->draw(myDeck);
-	Lebron->getHand()->draw(myDeck);
-	Lebron->getHand()->display();
-	Lebron->reinforce();
-	Lebron->attack();
-	Lebron->fortify();
+
+
+
 }
-

@@ -6,48 +6,26 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include "Player.h"
+
 
 using namespace std;
 Country::Country(string countryName ,Continent* continentName) {
     this->name = new string(countryName);
     this->numberOfArmies = new int(0);
     this->continent = continentName;
-	this->myplayer = new Player();
+
 }
 string Country::getName() {
     return *name;
 }
 
-Player* Country::getPlayer() {
-	return myplayer;
-}
-
-void Country::setPlayer(Player playerName) {
-	*myplayer = playerName;
-}
 
 void Country::setName(string countryName) {
     this->name = &countryName;
 }
 
-Continent Country::getContinent()
-{
-	return *continent;
-}
-
 Country::~Country() {
 
-}
-
-void Country::addArmy(int changeArmy)
-{
-	*numberOfArmies += changeArmy;
-}
-
-int Country::getArmies()
-{
-	return *numberOfArmies;
 }
 
 void Country::addNeighbor(Country* country) {
@@ -62,9 +40,30 @@ Country::Country() {
 
 }
 
+void Country::addArmies(int number) {
+    *numberOfArmies = *numberOfArmies +number;
+}
 
-Continent::Continent(string continentName) {
+int Country::getNumberOfArmies() {
+    return *numberOfArmies;
+}
+
+Player *Country::getOwner() {
+    return owner;
+}
+
+void Country::setOwner(Player *player) {
+    owner = player;
+}
+
+Continent *Country::getContinent() {
+    return continent;
+}
+
+
+Continent::Continent(string continentName, int value) {
     this->name = new string(continentName);
+    this->value = new int(value);
 }
 
 Continent::~Continent() {
@@ -76,7 +75,7 @@ string Continent::getName() {
 }
 
 void Continent::setName(string continentName) {
-    this->name = &continentName;
+    *name = continentName;
 
 }
 
@@ -118,6 +117,14 @@ int Continent::getIndexOfCountry(Country *country) {
             return i;
         }
     }
+}
+
+vector<Country *> Continent::getCountries() {
+    return countries;
+}
+
+int Continent::getValue() {
+    return *value;
 }
 
 Map::Map() {
@@ -184,7 +191,6 @@ int Map::getIndexOfCountry(Country *country) {
             return i;
         }
 
-
     }
 }
 
@@ -210,4 +216,16 @@ void Map::print() {
 
 vector<Continent *> Map::getContinents() {
     return this->continents;
+}
+
+vector<Country *> Map::getCountries() {
+    return this->countries;
+}
+
+void Map::setDeck(int numberOfCountries) {
+    deck = new Deck(numberOfCountries);
+}
+
+Deck *Map::getDeck() {
+    return deck;
 }

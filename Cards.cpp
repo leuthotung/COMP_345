@@ -115,16 +115,15 @@ void Deck::display() {
 
 Hand::Hand() 
 {   
-
+	this->armyCounter = new int(0);//initial armyCounter as 0, every exchange will let it+=5 then exchange;
 	this->numOfArt = new int(0);
 	this->numOfCav = new int(0);
 	this->numOfInf = new int(0);
 	this->totalNumOfCards = new int(0);
 	handDeck = new vector<Card>;
-	cout << "hand created" << endl;
+	//cout << "hand created" << endl;
 }
 
-int* Hand::armyCounter = new int(0);
 
 Hand::~Hand() {
 	delete armyCounter;
@@ -247,8 +246,8 @@ int Hand::exchange()
 }
 
 void Hand::draw(Deck *d) {
-	if (*totalNumOfCards < 5) 
-	{
+	/*if (*totalNumOfCards < 5)
+	{*/
 		Card c = d->draw();
 		if (c.getType() == infantry) {
 			cout << "The drawing Card is infantry" << endl;
@@ -264,8 +263,8 @@ void Hand::draw(Deck *d) {
 		}	
 		*totalNumOfCards += 1;
 		handDeck->push_back(c);// push the card to handVector
-	}
-	else//the num of cards in hand are above 5
+	/*}*/
+/*	else//the num of cards in hand are above 5
 	{
 		cout<<"there are 5 cards in hand, exchange automatically"<<endl;
 		exchange();
@@ -284,7 +283,7 @@ void Hand::draw(Deck *d) {
 		}
 		*totalNumOfCards += 1;
 		handDeck->push_back(c);
-	}
+	}*/
 }
 
 int Hand::getTotalCards() {
@@ -297,8 +296,8 @@ int Hand::getArmyCounter() {
 
 //This display will show the number of different kinds of cards  in hand
 void Hand::display() {
-	cout << "This hand contains " <<*totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
-		<< *numOfArt << " artillery cards." <<"armyCounter is "<<getArmyCounter()<< endl;
+	cout << *totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
+		<< *numOfArt << " artillery cards." << endl;
 }
 //This display will show current card object in hand
 void Hand::displayCurrentCard() {

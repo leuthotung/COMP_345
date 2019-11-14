@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include "Dice.h"
-#include <time.h>
 
 using namespace std;
 
@@ -26,20 +25,19 @@ vector<int *> Dice::get_value() {
 }
 
 //ask user the number of dices to be rolled and put the rolled numbers into a vector container
-
 void Dice::roll(int numberOfDices) {
-	value.clear();
-	for (int i = 0; i < numberOfDices; i++) {
-		value.push_back(new int(rand() % 6 + 1));//This generates a random number between 1 and 6
-	}
-	for (int i = 0; i < numberOfDices; i++) {
-		for (int k = i; k < numberOfDices; k++) {
-			if(*value[i]<*value[k])
-			iter_swap(value.begin() + i, value.begin() + k);
-		}
-	}
+    value.clear();
+    for (int i = 0; i < numberOfDices; i++) {
+        value.push_back(new int(rand() % 6 + 1));//This generates a random number between 1 and 6
+    }
+    //sorting
+    for (int i = 0; i < numberOfDices; i++) {
+        for (int k = i; k < numberOfDices; k++) {
+            if(*value[i]<*value[k])
+                iter_swap(value.begin() + i, value.begin() + k);
+        }
+    }
 }
-
 //return the rolled time for a given number of a dice object
 int Dice::get_rolled_times(int i) {
     if (i < 1 || i > 6) {

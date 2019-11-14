@@ -13,9 +13,9 @@ bool validateMapFile(string file){
     bool hasCountries = false;
     bool hasBorders = false;
     while(getline(checkValid,lineCheck)){
-        if(lineCheck == "[continents]\r") {
+        if(lineCheck == "[continents]") {
             hasContinents = true;
-            while(getline(checkValid,lineCheck) &&lineCheck != "\r"){
+            while(getline(checkValid,lineCheck) &&lineCheck != ""){
                 stringstream ss(lineCheck);
                 string word;
                 char delim = ' ';
@@ -37,9 +37,9 @@ bool validateMapFile(string file){
 
             }
         }
-        if(lineCheck == "[countries]\r") {
+        if(lineCheck == "[countries]") {
             hasCountries = true;
-            while (getline(checkValid, lineCheck) && lineCheck != "\r") {
+            while (getline(checkValid, lineCheck) && lineCheck != "") {
                 stringstream ss(lineCheck);
                 string word;
                 char delim = ' ';
@@ -62,9 +62,9 @@ bool validateMapFile(string file){
                 }
             }
         }
-        if(lineCheck == "[borders]\r"){
+        if(lineCheck == "[borders]"){
             hasBorders = true;
-            while (getline(checkValid, lineCheck) && lineCheck != "\r") {
+            while (getline(checkValid, lineCheck) && lineCheck != "") {
                 stringstream ss(lineCheck);
                 string word;
                 char delim = ' ';
@@ -99,17 +99,17 @@ Map readMapFile(string file) {
            ifstream inputFile(file);
            string line;
            //Find the [continents] section
-           while (getline(inputFile, line) && line != "[continents]\r") {}
-           while (getline(inputFile, line) && line != "\r") {
+           while (getline(inputFile, line) && line != "[continents]") {}
+           while (getline(inputFile, line) && line != "") {
                //cout << line << endl;
                string continent = line.substr(0, line.find(" "));
                int value = stoi(line.substr(line.find(" ") + 1)); //will take care of the value later
-               map.addContinent(new Continent(continent));
+               map.addContinent(new Continent(continent,value));
                //cout<<continent<<" and " << value <<endl;
            }
            //Find the [countries[ section
-           while (getline(inputFile, line) && line != "[countries]\r") {}
-           while (getline(inputFile, line) && line != "\r") {
+           while (getline(inputFile, line) && line != "[countries]") {}
+           while (getline(inputFile, line) && line != "") {
                //split the line
                stringstream ss(line);
                string word;
@@ -128,8 +128,8 @@ Map readMapFile(string file) {
            }
 
            //Find [borders] section
-           while (getline(inputFile, line) && line != "[borders]\r") {}
-           while (getline(inputFile, line) && line != "\r") {
+           while (getline(inputFile, line) && line != "[borders]") {}
+           while (getline(inputFile, line) && line != "") {
                stringstream ss(line);
                string word;
                char delim = ' ';
@@ -144,6 +144,7 @@ Map readMapFile(string file) {
                }
 
            }
+           map.setDeck(map.getCountries().size());
 
            return map;
        }

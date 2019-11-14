@@ -36,7 +36,7 @@ private:
 	int* numOfCav;
 	int* numOfArt;
 	int* totalNumOfCards;
-	static int* armyCounter;
+	int* armyCounter;
 	std::vector<Card> *handDeck;
 public:
 	Hand();
