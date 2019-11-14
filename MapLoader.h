@@ -17,13 +17,13 @@ public:
 };
 class Adapter :public MapLoader {
 private:
-    Adaptee adaptee;
+    Adaptee* adaptee;
 public:
-    Adapter(Adaptee conquestAdaptee){
+    Adapter(Adaptee *conquestAdaptee){
         adaptee= conquestAdaptee;
     }
     Map readMapFile(string file){
-        return adaptee.readMapFile(file);
+        return adaptee->readMapFile(file);
 
     };
 };

@@ -18,9 +18,9 @@ int main() {
  //MapLoader mapload;
 // Map a = mapload.readMapFile("../Maps/europe.map");
  //a.print();
- Adaptee conquest;
- Adapter readConquest(conquest);
- Map b = readConquest.readMapFile("../ConquestMap/Alabama.map");
+ Adaptee *conquest = new Adaptee();
+ Adapter *conquestAdapter= new Adapter(conquest);
+ Map b = conquestAdapter->readMapFile("../ConquestMap/Alabama.map");
  b.print();
     return 0;
 }
