@@ -11,7 +11,7 @@
 using namespace std;
 Country::Country(string countryName ,Continent* continentName) {
     this->name = new string(countryName);
-    this->numberOfArmies = new int(0);
+    this->numberOfArmies = new int(1);
     this->continent = continentName;
 
 }
