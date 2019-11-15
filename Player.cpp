@@ -1,18 +1,16 @@
 #include "Player.h"
 #include <string>
+#include "Map.h"
+#include "GameEngine.h"
+#include   <windows.h>  
+
 using namespace std;
 
 Player::Player(string name) {
     this->name = new string(name);
     this->hand = new Hand();
     this->dice = new Dice();
-	this->armyCounter = new int(0);
-	this->asiaCounter = new int(0);
-	this->euCounter = new int(0);
-	this->naCounter = new int(0);
-	this->saCounter = new int(0);
-	this->africaCounter = new int(0);
-	this->oceaniaCounter = new int(0);
+	this->phase = new string("null");
 }
 
 Player::Player() {
@@ -23,69 +21,164 @@ Player::~Player() {
 
 }
 
+Map *Player::getMap() {
+    return gameMap;
+}
+
+void Player::setMap(Map *map) {
+    gameMap = map;
+}
+
+void Player::addCountry(Country* newCountry) {
+    countries.push_back(newCountry);
+    newCountry->setOwner(this);
+}
+
+void Player::removeCountry(Country *country) {
+    for (int i = 0; i < countries.size(); i++)
+    {
+        if (countries.at(i)->getName() == country->getName())
+        {
+            countries.erase(countries.begin() + i);
+            break;
+        }
+    }
+    cout << *name << " just lost this Country " << country->getName() << endl;
+
+}
+
+Dice *Player::getDice() {
+    return this->dice;
+}
+
+Hand *Player::getHand() {
+    return this->hand;
+}
+
+string Player::getName() {
+    return *name;
+}
+
+string Player::getPhase() {
+	return *phase;
+}
+
+vector<Country*> Player::getCountries(){
+    return countries;
+}
+// This method show current information of the countries this Player owns
+void Player::showInformation() {
+    for (int i = 0; i < countries.size(); i++) {
+        cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getNumberOfArmies() << endl;
+    }
+}
+//This method checks if player has ownership of the continent
+bool Player::hasOwnership(Continent* continent) {
+    int countryCounter = 0;
+    for(int i = 0; i< this->countries.size(); i++){
+        if(countries[i]->getContinent() == continent)
+            countryCounter++;
+    }
+    return(countryCounter == continent->getCountries().size());
+}
+//This method returns number of armies that Player can have from occupying continents
+int Player::armiesFromContinent() {
+    int armiesToAdd = 0;
+    vector<Continent*> continents=  this->getMap()->getContinents();
+    for(int i = 0; i < continents.size(); i++){
+        if(this->hasOwnership(continents[i])){
+            armiesToAdd += continents[i]->getValue();
+            cout<<continents[i]->getValue()<<" armies added since "<< this->getName() <<" owns this Continent: "<<continents[i]->getName();
+        }
+    }
+    return armiesToAdd;
+
+}
 void Player::reinforce() {
-	//cout.setf(std::ios_base::boolalpha);
-	//cin.setf(std::ios_base::boolalpha);
-	bool exchangeFlag = false;
-	int countryIndex = 0;
-	int addArmy = 0;
-	cout << "------------------REINFORCE PHASE START-------------------------" << endl;
-	*armyCounter += this->countries.size() / 3;
-	*armyCounter += continentCheck();
-	cout << "Do you want to exchange card??(intput 0(false) or 1(true))" << endl;
-	while(true){
-	if (cin >> exchangeFlag)
-		break;
-	else {
-		cout << "invalid input" << endl;
-		cin.clear();
-		cin.ignore();
-	}	
-	}
-	
-	if (exchangeFlag == true)
-		* armyCounter += this->hand->exchange();
-	cout << "will get " << *armyCounter << " armies  in reinforce stage"<<endl;
-	cout << "--------------------This is your information-----------------------" << endl;
-	for (int i = 0; i < countries.size(); i++) {
-		cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getArmies() << endl;
-	}
-	cout << "----------------------------------------------------------------------" << endl;
-	while (*armyCounter > 0)
-	{
-		countryIndex = 0;
-		addArmy = 0;
-		cout << "there are " << *armyCounter << " armies need to be place"<<endl;
-		cout << "Choose the index of country you want to change"<<endl;
-		cin >> countryIndex;
-		if (countryIndex<0 || countryIndex>countries.size() - 1)
-		{
-			cout << "invalid input" << endl;
-			continue;
+    int armyCounter = 0;
+    bool exchangeFlag = false;
+	bool nextPhaseFlag = false;
+	*phase = "Reinforce";
+	Notify();
+    int armiesFromNumberOfCountries = this->countries.size()/3;
+    //cout<< this->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< countries.size()<< " countries"<<endl;
+    armyCounter += armiesFromNumberOfCountries;
+    armyCounter += this->armiesFromContinent();
+
+    cout << "Do you want to exchange card??(intput 0(false) or 1(true))" << endl;
+    while(true){
+        if (cin >> exchangeFlag)
+            break;
+        else {
+            cout << "invalid input" << endl;
+            cin.clear();
+            cin.ignore();
+        }
+    }
+    if (exchangeFlag) {
+        armyCounter += this->hand->exchange();
+    }
+
+    cout << this->getName() << " will have " <<  armyCounter << " armies  in this reinforcement stage"<<endl;
+
+    while(armyCounter>0) {
+        bool indexValid = false;
+        int countryIndex;
+        cout << "You have  " << armyCounter << " armies left" << endl;
+        while (!indexValid) {
+
+            cout << this->getName() << " Please choose the index of country you want to add armies"
+                 << endl;
+            cin >> countryIndex;
+
+            if (countryIndex < 0 || countryIndex > this->getCountries().size() - 1) {
+                cout << "Invalid index, please choose again!" << endl;
+            } else {
+                bool validNumber = false;
+                while (!validNumber) {
+                    int numberOfArmiesToAdd;
+                    cout << "Please choose number of armies you want to add ";
+                    cin >> numberOfArmiesToAdd;
+                    if (numberOfArmiesToAdd > armyCounter|| numberOfArmiesToAdd <0) {
+                        cout << "Please add valid number of armies!! Choose again" << endl;
+                    } else {
+                        cout << "Added " << numberOfArmiesToAdd << " army to country "
+                             << this->getCountries()[countryIndex]->getName()
+                             << endl;
+                        this->getCountries()[countryIndex]->addArmies(numberOfArmiesToAdd);
+                        indexValid = true;
+                        armyCounter = armyCounter - numberOfArmiesToAdd;
+                        validNumber = true;
+						Notify();
+                    }
+                }
+            }
+        }
+    }
+    cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
+	while (true) {
+		cout << "Do you want to end this phase and start attack phase? input 0(false) or 1(true)" << endl;
+		while (true) {
+			if (cin >> nextPhaseFlag)
+				break;
+			else {
+				cout << "invalid input" << endl;
+				cin.clear();
+				cin.ignore();
+			}
 		}
-		cout << "Choose the number of armies you want to place"<<endl;
-		cin >> addArmy;
-		if (addArmy < 0 || *armyCounter - addArmy < 0)
+		if (nextPhaseFlag == true)
 		{
-			cout << "invalid input" << endl;
-			continue;
+			system("CLS");
+			break;	
 		}
-		countries[countryIndex]->addArmy(addArmy);
-		*armyCounter -= addArmy;
+		else
+			cout << "ALL ARMIES ARE PLACED SUCCESSFULLY, NOTHING TO DO IN REINFORCE PHASE" << endl;
 	}
-	cout << "all armies are placed successfully" << endl; 
-	cout << "--------------------This is your information-----------------------" << endl;
-	for (int i = 0; i < countries.size(); i++) {
-		cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getArmies() << endl;
-	}
-	cout << "----------------------------------------------------------------------" << endl;
-	cout << "--------------------REINFORCE PHASE END--------------------------" << endl;
+
 }
 
 void Player::attack() {
-<<<<<<< Updated upstream
-    cout<<"Attack"<<endl;
-=======
     bool attackFlag = false;
     bool continueFlag = false;
     int sourceCountryIndex = 0;
@@ -270,118 +363,99 @@ void Player::attack() {
 		system("CLS");
 
 
->>>>>>> Stashed changes
 
 }
 
 void Player::fortify() {
-	bool fortifyFlag = false;
-	int sourceCountryIndex = 0;
-	int targetCountryIndex = 0;
-	int changeArmy = 0;
-	cout << "--------------------FORTIFICATION PHASE START--------------------------" << endl;
-	cout << "do you want to fortify? (intput 0(false) or 1(true) )" << endl;
-	while (true) {
-		if (cin >> fortifyFlag)
-			break;
-		else {
-			cout << "invalid input" << endl;
-			cin.clear();
-			cin.ignore();
-		}
-	}
-	if (fortifyFlag == true) {
-		cout << "--------------------This is your information-----------------------" << endl;
-		for (int i = 0; i < countries.size(); i++) {
-			cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getArmies() << endl;
-		}
-		cout << "----------------------------------------------------------------------" << endl;
-		cout<<"Choose the index of SOURCE country "<<endl;
+    bool fortifyFlag = false;
+	bool nextPhaseFlag = false;
+    int sourceCountryIndex = 0;
+    int targetCountryIndex = 0;
+    int changeArmy = 0;
+    cout << "Do you want to fortify? (intput 0(false) or 1(true) )" << endl;
+    while (true) {
+        if (cin >> fortifyFlag)
+            break;
+        else {
+            cout << "invalid input" << endl;
+            cin.clear();
+            cin.ignore();
+        }
+    }
+    if (fortifyFlag) {
+		Notify();
+        cout<<"Choose the index of SOURCE country "<<endl;
+        while (true) {
+            cin >> sourceCountryIndex;
+            if (sourceCountryIndex<0 || sourceCountryIndex>countries.size() - 1|| countries[sourceCountryIndex]->getNumberOfArmies() <2)
+                cout << "Invalid input,please input valid index of source country which have enough armies(>=2)" << endl;
+            else
+                break;
+        }
+        cout << "This is the neighbor information of the source country" << endl;
+
+        for (int i = 0; i < countries[sourceCountryIndex]->getNeigbors().size(); i++) {
+            cout << "Index " << i <<
+                    " Country:" << countries[sourceCountryIndex]->getNeigbors().at(i)->getName()<<
+                    "  Army:" << countries[sourceCountryIndex]->getNeigbors().at(i)->getNumberOfArmies() <<
+                    "  Owner: "<<countries[sourceCountryIndex]->getNeigbors().at(i)->getOwner()->getName()<<endl;
+        }
+        cout << "Choose the index of TARGET country " << endl;
+        while (true) {
+            cin >> targetCountryIndex;
+            if (targetCountryIndex<0 || targetCountryIndex>countries[sourceCountryIndex]->getNeigbors().size() - 1)
+                cout << "invalid input" << endl;
+            else if ((countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->getName().compare(this->getName()) != 0))
+                cout<< "PLEASE CHOOSE THE COUNTRY YOU OWN !!"<<endl;
+            else
+                break;
+        }
+        cout << "Choose the numbers of armies you want to move" << endl;
+        while (true) {
+            cin >> changeArmy;
+            if (changeArmy<=0 || changeArmy> countries[sourceCountryIndex]->getNumberOfArmies()-1)
+                cout << "Invalid input,X must be in the range [1 to(number of armies on the source country - 1)]" << endl;
+            else
+                break;
+        }
+        countries[sourceCountryIndex]->addArmies(-changeArmy);
+        countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
+		Notify();
 		while (true) {
-			cin >> sourceCountryIndex;
-			if (sourceCountryIndex<0 || sourceCountryIndex>countries.size() - 1|| countries[sourceCountryIndex]->getArmies() <2)
-				cout << "invalid input,please input valid index of source country who have enough armies(>=2)" << endl;
-			else
+			cout << "Do you want to end this phase? input 0(false) or 1(true)" << endl;
+			while (true) {
+				if (cin >> nextPhaseFlag)
+					break;
+				else {
+					cout << "invalid input" << endl;
+					cin.clear();
+					cin.ignore();
+				}
+			}
+			if (nextPhaseFlag == true)
+			{
+				system("CLS");
 				break;
-		}
-		cout << "This is the neighbor information of the source country" << endl;
-		for (int i = 0; i < countries[sourceCountryIndex]->getNeigbors().size(); i++) {
-			cout << "Index" << i << " Country:" << countries[sourceCountryIndex]->getNeigbors().at(i)->getName()<< "  Army:" << countries[sourceCountryIndex]->getNeigbors().at(i)->getArmies() << endl;
-		}
-		cout << "Choose the index of TARGET country " << endl;
-		while (true) {
-			cin >> targetCountryIndex;
-			if (targetCountryIndex<0 || targetCountryIndex>countries[sourceCountryIndex]->getNeigbors().size() - 1 )
-				cout << "invalid input" << endl;
+			}
 			else
-				break;
+				cout << "PLEASE END YOUR PHASE AFTER CHECKING YOUR INFORMATION" << endl;
 		}
-		cout << "Choose the numbers of armies you want to move" << endl;
-		while (true) {
-			cin >> changeArmy;
-			if (changeArmy<=0 || changeArmy> countries[sourceCountryIndex]->getArmies()-1)
-				cout << "invalid input,X must be in the range [1 to(number of armies on the source country - 1)]" << endl;
-			else
-				break;
-		}
-		countries[sourceCountryIndex]->addArmy(-changeArmy);
-		countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmy(changeArmy);
-		cout << "--------------------This is your information-----------------------" << endl;
-		for (int i = 0; i < countries.size(); i++) {
-			cout << "Index" << i << " Country:" << countries[i]->getName() << "  Army:" << countries[i]->getArmies() << endl;
-		}
-		cout << "----------------------------------------------------------------------" << endl;
-		cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
-	}
-	else {
-		cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
-		return;
-	}
-	
+    }
+    else {
+		system("CLS");
+
+    }
+
 
 }
 
-int Player::continentCheck()
-{
-	int tempCounter = 0;
-	if (*asiaCounter == 5) //5 means 5 countries in asia
-		tempCounter += 3; // control value
-	if (*euCounter == 6)
-		tempCounter += 3; // control value
-	if (*saCounter == 7)
-		tempCounter += 3; // control value
-	if (*naCounter == 2)
-		tempCounter += 3; // control value
-	if (*africaCounter == 9)
-		tempCounter += 3; // control value
-	if (*oceaniaCounter == 10)
-		tempCounter += 3; // control value
-	return tempCounter;
-}
 
-void Player::addCountry(Country* newCountry) {
-    countries.push_back(newCountry);
-	if (newCountry->getContinent().getName().compare("asia") == 0) {
-		++*asiaCounter;
-	}
-	else if (newCountry->getContinent().getName().compare("europe") == 0)
-		++*euCounter;
-	else if (newCountry->getContinent().getName().compare("northAmerica") == 0)
-		++*naCounter;
-	else if (newCountry->getContinent().getName().compare("southAmerica") == 0)
-		++*saCounter;
-	else if (newCountry->getContinent().getName().compare("africa") == 0)
-		++*africaCounter;
-	else if (newCountry->getContinent().getName().compare("oceania") == 0)
-		++*oceaniaCounter;
-}
 
-Dice *Player::getDice() {
-    return this->dice;
-}
 
-Hand *Player::getHand() {
-    return this->hand;
-}
+
+
+
+
+
 
 

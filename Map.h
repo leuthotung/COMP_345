@@ -5,8 +5,11 @@
 #define COMP345_MAP_H
 #include <iostream>
 #include <vector>
+#include "Player.h"
 using namespace std;
 class Continent;
+class Player;
+class Deck;
 class Country{
 //Attributes
 private:
@@ -14,28 +17,37 @@ private:
     string* name;
     vector<Country*> neighbors;
     Continent* continent;
+    Player* owner;
 public:
     Country();
     Country(string name,  Continent* continent);
     ~Country();
     string getName();
     vector<Country*> getNeigbors();
+    int getNumberOfArmies();
+    Player* getOwner();
+    Continent* getContinent();
     void addNeighbor(Country* country);
     void setName(string countryName);
-	Continent getContinent();//assignment2 ok
-	void addArmy(int changeArmy);
-	int getArmies();
+    void addArmies(int number);
+    void setOwner(Player* owner);
+
+
+
 };
 class Map{
 //Attributes
 private:
     vector<Country*> countries;
     vector<Continent*> continents;
+    Deck* deck;
 public:
     Map();
     ~Map();
     Continent* getContinentbyIndex(int index);
     Country* getCountrybyIndex(int index);
+    Deck* getDeck();
+    void setDeck(int numberOfCountries);
     void addCountry(Country* country);
     void addContinent(Continent* continent);
     void showMap();
@@ -43,6 +55,8 @@ public:
     int getIndexOfCountry(Country *country);
     void print();
     vector<Continent*> getContinents();
+    vector<Country*> getCountries();
+
 
 };
 
@@ -51,8 +65,10 @@ class Continent{
 private:
     string* name;
     vector<Country*> countries;
+    int *value;
 public:
-    Continent(string continentName);
+
+    Continent(string continentName, int value);
     ~Continent();
     string getName();
     void setName(string continentName);
@@ -60,6 +76,9 @@ public:
     bool isConnected();
     Country* getCountrybyIndex(int index);
     int getIndexOfCountry(Country* country);
+    vector<Country*> getCountries();
+    int getValue();
+
 
 
 };
