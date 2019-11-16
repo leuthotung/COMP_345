@@ -1,5 +1,5 @@
 #include "GameObserver.h"
-
+#include "Player.h"
 
 PhaseObserver::PhaseObserver()
 {
@@ -20,6 +20,7 @@ void PhaseObserver::Update() {
 }
 
 void PhaseObserver::display() {
+	if (_subject->getObserverSelect() !=1) {
 	cout << "-----------PHASE OBSERVER----------- " << endl;
 	cout << "Player: " <<_subject->getName()<< endl;
 	cout << "Phase: "<<_subject->getPhase() << endl;
@@ -28,6 +29,7 @@ void PhaseObserver::display() {
 	cout << "ArmyCounter: " << _subject->getHand()->getArmyCounter()+5 << endl;
 	cout << "Owned Country: "<<endl;
 	_subject->showInformation();
+	}
 }
 
 
@@ -50,7 +52,22 @@ void GameStaticsObserver::Update() {
 }
 
 void GameStaticsObserver::display() {
-	cout << "-----------GAME STATICS OBSERVER----------- " << endl;
-	cout <<"Total Countries: "<< _subject->getMap()->getCountries().size() << endl;
-	cout << "" << endl;
+	if (_subject->getObserverSelect() != 0) 
+	{
+		cout << "-----------GAME STATICS OBSERVER----------- " << endl;
+		cout << "Total Countries: " << _subject->getMap()->getCountries().size() << endl;
+		for (int i = 0; i < _subject->getPlayers().size(); i++) {
+			cout << _subject->getPlayers()[i]->getName() << " has own " << (float)_subject->getPlayers()[i]->getCountries().size() / _subject->getMap()->getCountries().size() * 100 << " percentage of world" << endl;
+			if ((float)_subject->getPlayers()[i]->getCountries().size() / _subject->getMap()->getCountries().size() * 100 == 100) {
+				cout << _subject->getPlayers()[i]->getName() << " win the game" << endl;
+				exit(0);
+			}
+		}
+			
+		for (int i = 0; i < _subject->getPlayers().size(); i++)
+			if (_subject->getPlayers()[i]->getCountries().size() == 0) {
+				cout << _subject->getPlayers()[i]->getName() << " has no countries and will be eliminated after atacking phase" << endl;
+			}
+
+	}
 }

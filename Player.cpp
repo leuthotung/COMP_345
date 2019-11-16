@@ -4,13 +4,46 @@
 #include "GameEngine.h"
 #include   <windows.h>  
 
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif
+
+
 using namespace std;
+
+Observer::Observer() {
+};
+Observer::~Observer() {
+};
+
+
+Subject::Subject() {
+	_observers = new list<Observer*>;
+}
+Subject::~Subject() {
+	delete _observers;
+}
+void Subject::Attach(Observer* o) {
+	_observers->push_back(o);
+};
+void Subject::Detach(Observer* o) {
+	_observers->remove(o);
+};
+
+void Subject::Notify() {
+	list<Observer*>::iterator i = _observers->begin();
+	for (; i != _observers->end(); ++i)
+		(*i)->Update();
+};
 
 Player::Player(string name) {
     this->name = new string(name);
     this->hand = new Hand();
     this->dice = new Dice();
 	this->phase = new string("null");
+	this->observerSelect = new int(2);
 }
 
 Player::Player() {
@@ -29,6 +62,17 @@ void Player::setMap(Map *map) {
     gameMap = map;
 }
 
+vector<Player*> Player::getPlayers()
+{
+	return players;
+}
+
+void Player::setPlayers(vector<Player*> player)
+{
+	players = player;
+}
+
+
 void Player::addCountry(Country* newCountry) {
     countries.push_back(newCountry);
     newCountry->setOwner(this);
@@ -45,6 +89,11 @@ void Player::removeCountry(Country *country) {
     }
     cout << *name << " just lost this Country " << country->getName() << endl;
 
+}
+
+int Player::getObserverSelect()
+{
+	return *observerSelect;
 }
 
 Dice *Player::getDice() {
@@ -88,7 +137,7 @@ int Player::armiesFromContinent() {
     for(int i = 0; i < continents.size(); i++){
         if(this->hasOwnership(continents[i])){
             armiesToAdd += continents[i]->getValue();
-            cout<<continents[i]->getValue()<<" armies added since "<< this->getName() <<" owns this Continent: "<<continents[i]->getName();
+            cout<<continents[i]->getValue()<<" armies added since "<< this->getName() <<" owns this Continent: "<<continents[i]->getName()<<endl;
         }
     }
     return armiesToAdd;
@@ -99,6 +148,8 @@ void Player::reinforce() {
     bool exchangeFlag = false;
 	bool nextPhaseFlag = false;
 	*phase = "Reinforce";
+	system(CLEAR);
+	*observerSelect = 2;
 	Notify();
     int armiesFromNumberOfCountries = this->countries.size()/3;
     //cout<< this->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< countries.size()<< " countries"<<endl;
@@ -149,6 +200,7 @@ void Player::reinforce() {
                         indexValid = true;
                         armyCounter = armyCounter - numberOfArmiesToAdd;
                         validNumber = true;
+						*observerSelect = 0;
 						Notify();
                     }
                 }
@@ -169,7 +221,7 @@ void Player::reinforce() {
 		}
 		if (nextPhaseFlag == true)
 		{
-			system("CLS");
+			system(CLEAR);
 			break;	
 		}
 		else
@@ -187,6 +239,9 @@ void Player::attack() {
     int winCounter=0;
     int loseCounter = 0;
 	
+	*observerSelect = 1;
+	Notify();
+	
     cout << "Do you want to attack? (intput 0(false) or 1(true) )" << endl;
     while (true) {
         if (cin >> attackFlag)
@@ -199,7 +254,8 @@ void Player::attack() {
     }
 
     while(attackFlag){
-        Notify();
+		*observerSelect = 0;
+		Notify();
         cout << "Choose the index of SOURCE country " << endl;
         while (true) {
             cin >> sourceCountryIndex;
@@ -237,11 +293,11 @@ void Player::attack() {
             }
             if (countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getNumberOfArmies() == 0) {
                 cout << "There is no army left in defending country" << endl;
-			//	if (countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->getCountries().size() == 1)
-				//	cout << countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->getName()<<" will lose and be eminated" << endl;
                 countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->removeCountry(
                         countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
                 this->addCountry(countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
+				*observerSelect = 1;
+				Notify();
 				cout << "please move a number of armies from the attacking country to the attacked country,in the range [1 to " << countries[sourceCountryIndex]->getNumberOfArmies() - 1 << "]" << endl;
 				while (true) {
 					cin >> changeArmy;
@@ -360,7 +416,7 @@ void Player::attack() {
                 break;
     }
 
-		system("CLS");
+		system(CLEAR);
 
 
 
@@ -372,6 +428,8 @@ void Player::fortify() {
     int sourceCountryIndex = 0;
     int targetCountryIndex = 0;
     int changeArmy = 0;
+	*observerSelect = 2;
+	Notify();
     cout << "Do you want to fortify? (intput 0(false) or 1(true) )" << endl;
     while (true) {
         if (cin >> fortifyFlag)
@@ -383,7 +441,6 @@ void Player::fortify() {
         }
     }
     if (fortifyFlag) {
-		Notify();
         cout<<"Choose the index of SOURCE country "<<endl;
         while (true) {
             cin >> sourceCountryIndex;
@@ -420,6 +477,7 @@ void Player::fortify() {
         }
         countries[sourceCountryIndex]->addArmies(-changeArmy);
         countries[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
+		*observerSelect = 0;
 		Notify();
 		while (true) {
 			cout << "Do you want to end this phase? input 0(false) or 1(true)" << endl;
@@ -434,7 +492,7 @@ void Player::fortify() {
 			}
 			if (nextPhaseFlag == true)
 			{
-				system("CLS");
+				system(CLEAR);
 				break;
 			}
 			else
@@ -442,7 +500,7 @@ void Player::fortify() {
 		}
     }
     else {
-		system("CLS");
+		system(CLEAR);
 
     }
 

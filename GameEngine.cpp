@@ -60,11 +60,14 @@ void GameEngine::gameInit(vector<string> maps) {
         Player*player = new Player(name);
         player->setMap(this->gameMap);
 		PhaseObserver* phaseObserver = new PhaseObserver(player);
+		GameStaticsObserver* gameStaticsObserver = new GameStaticsObserver(player);
         gamePlayers.push_back(player);
 
     }
     this->setPlayers(gamePlayers);
-
+	for (int i = 0; i < numberOfPlayers; i++) {
+		players[i]->setPlayers(players);
+	}
 }
 //Start-up phase
 void GameEngine::gameStartUp() {
@@ -73,6 +76,7 @@ void GameEngine::gameStartUp() {
     int numberOfCountry = gameMap->getCountries().size();
     int count = 0;
     //Assign countries to players
+
     while(count< numberOfCountry){
         for(int i = 0; i< players.size();i++){
             if(count == numberOfCountry)
@@ -160,12 +164,23 @@ void GameEngine::gameLoop() {
         for(int i = 0; i< players.size(); i++){
             players[i]->reinforce();
             players[i]->attack();
-            players[i]->fortify();
-            if(players[i]->getCountries().size() == gameMap->getCountries().size()){
-                cout<<players[i]->getName()<< " WON THE GAME !! " ;
-                gameFinish = true;
-                break;
-            }
+			int temp = players.size();
+			for (int j = 0; j < temp; j++) {
+				for (int k = 0; k < players.size(); k++) {
+					if (players[k]->getCountries().size() == 0) {
+						players.erase(players.begin() + k);
+						for (int i = 0; i < players.size(); i++) {
+							players[i]->setPlayers(players);
+						}
+						break;
+					}
+				}		
+			}
+			if (players[i]->getCountries().size() == gameMap->getCountries().size()) {
+				gameFinish = true;
+				break;
+			}
+            players[i]->fortify();            
         }
 
     }
@@ -207,6 +222,11 @@ void GameEngine::gameStartUp2() {
     int numberOfCountry = gameMap->getCountries().size();
     int count = 0;
     //Assign countries to players
+	for (int i = 0; i < gameMap->getCountries().size() - 3; i++) {
+		players[0]->addCountry(gameMap->getCountries()[i]);
+		gameMap->getCountries()[i]->setOwner(players[0]);
+		count++;
+	}
     while(count< numberOfCountry){
         for(int i = 0; i< players.size();i++){
             if(count == numberOfCountry)
@@ -221,7 +241,7 @@ void GameEngine::gameStartUp2() {
     switch(numberOfPlayers){
         case 2: numberOfArmies = 40;
             break;
-        case 3: numberOfArmies = 5;
+        case 3: numberOfArmies = 10;
             break;
         case 4: numberOfArmies = 30;
             break;
