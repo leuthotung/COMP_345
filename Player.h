@@ -39,9 +39,7 @@ class Map;
 
 
 
-
 class Player:public Subject {
-
 
 private:
 	int* observerSelect;
@@ -53,7 +51,6 @@ private:
 	vector<Continent*> continentsOwned;
 	Map* gameMap;
 	vector<Player*> players;
-
 
 public:
 	Player();
