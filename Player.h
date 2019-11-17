@@ -26,7 +26,7 @@ private:
 	Hand* hand;    //Hand of Risk cards
 	vector<Continent*> continentsOwned;
 	Map* gameMap;
-    PlayerStrategies strategies;
+    PlayerStrategies *strategies;
 
 public:
 	Player();
@@ -46,6 +46,8 @@ public:
 	bool hasOwnership(Continent* continent);
 	int armiesFromContinent();
 	void showInformation();
+	void setStrategy(PlayerStrategies* strat);
+	void chooseStrategy();
 };
 
 #endif

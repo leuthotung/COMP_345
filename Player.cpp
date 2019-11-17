@@ -87,7 +87,7 @@ int Player::armiesFromContinent() {
 
 }
 void Player::reinforce() {
-    this->strategies.attack(this);
+    this->strategies->attack(this);
     /*int armyCounter = 0;
     bool exchangeFlag = false;
     cout << "------------------REINFORCE PHASE START-------------------------" << endl;
@@ -155,7 +155,7 @@ void Player::reinforce() {
 }
 
 void Player::attack() {
-    this->strategies.attack(this);
+    this->strategies->attack(this);
     /*bool attackFlag = false;
     bool continueFlag = false;
     int sourceCountryIndex = 0;
@@ -331,7 +331,7 @@ void Player::attack() {
 }
 
 void Player::fortify() {
-    this->strategies.fortify(this);
+    this->strategies->fortify(this);
     /*bool fortifyFlag = false;
     int sourceCountryIndex = 0;
     int targetCountryIndex = 0;
@@ -399,6 +399,12 @@ void Player::fortify() {
 
 
 }
+
+void Player::setStrategy(PlayerStrategies* strat) {
+    strategies = strat;
+
+}
+
 
 
 

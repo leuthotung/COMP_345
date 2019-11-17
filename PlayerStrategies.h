@@ -26,7 +26,7 @@ public:
     void fortify(Player* player);
 };
 
-class Benvolent: public PlayerStrategies{
+class Benevolent: public PlayerStrategies{
 public:
     void reinforce(Player *player);
     void attack(Player* player);
