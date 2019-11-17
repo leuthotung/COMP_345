@@ -9,6 +9,7 @@
 #include "Dice.h"
 #include "Map.h"
 #include "Cards.h"
+#include "PlayerStrategies.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ private:
 	Hand* hand;    //Hand of Risk cards
 	vector<Continent*> continentsOwned;
 	Map* gameMap;
-
+    PlayerStrategies strategies;
 
 public:
 	Player();
