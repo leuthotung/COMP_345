@@ -56,7 +56,7 @@ public:
     void print();
     vector<Continent*> getContinents();
     vector<Country*> getCountries();
-
+    Country* getCountrybyName(string name);
 
 };
 
