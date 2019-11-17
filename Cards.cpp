@@ -62,7 +62,6 @@ Deck::Deck(int numberOfCountries) {
 	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine e(seed);
 	std::shuffle(deckVector->begin(),deckVector->end(),e); //shuffle the deck
-	cout << "Deck created" << endl;
 	/*
 	for (int i = 0; i < deckVector->size(); i++) {
 		deckVector->at(i).display();
@@ -296,8 +295,8 @@ int Hand::getArmyCounter() {
 
 //This display will show the number of different kinds of cards  in hand
 void Hand::display() {
-	cout << "This hand contains " <<*totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
-		<< *numOfArt << " artillery cards." <<"armyCounter is "<<getArmyCounter()<< endl;
+	cout << *totalNumOfCards<<" cards,"<< *numOfInf << " infantry cards, " << *numOfCav << " cavalry cards, and "
+		<< *numOfArt << " artillery cards." << endl;
 }
 //This display will show current card object in hand
 void Hand::displayCurrentCard() {

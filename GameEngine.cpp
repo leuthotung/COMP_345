@@ -59,11 +59,15 @@ void GameEngine::gameInit(vector<string> maps) {
         cin>>name;
         Player*player = new Player(name);
         player->setMap(this->gameMap);
+		PhaseObserver* phaseObserver = new PhaseObserver(player);
+		GameStaticsObserver* gameStaticsObserver = new GameStaticsObserver(player);
         gamePlayers.push_back(player);
 
     }
     this->setPlayers(gamePlayers);
-
+	for (int i = 0; i < numberOfPlayers; i++) {
+		players[i]->setPlayers(players);
+	}
 }
 //Start-up phase
 void GameEngine::gameStartUp() {
@@ -72,6 +76,7 @@ void GameEngine::gameStartUp() {
     int numberOfCountry = gameMap->getCountries().size();
     int count = 0;
     //Assign countries to players
+
     while(count< numberOfCountry){
         for(int i = 0; i< players.size();i++){
             if(count == numberOfCountry)
@@ -100,7 +105,8 @@ void GameEngine::gameStartUp() {
     int armiesOwned = numberOfArmies;
     while(armiesOwned>0) {
         for (int i = 0; i < numberOfPlayers; i++) {
-            cout<< "------------------------"<<players[i]->getName()<<" TURN ------------------"<<endl;
+
+            //if(armiesOwned>0) {
             cout << players[i]->getName() << " has " << armiesOwned << " left" << endl;
             bool indexValid = false;
             int countryIndex;
@@ -116,13 +122,31 @@ void GameEngine::gameStartUp() {
                 if (countryIndex < 0 || countryIndex > players[i]->getCountries().size() - 1) {
                     cout << "Invalid index, please choose again!" << endl;
                 } else {
-                    players[i]->getCountries()[countryIndex]->addArmies(1);
+                    //This version ask player to fill in armies until it ends, but it wont be round robin fashion..
+                    bool validNumber = false;
+                    while(!validNumber) {
+                        int numberOfArmiesToAdd;
+                        cout << "Please choose number of armies you want to add ";
+                        cin >> numberOfArmiesToAdd;
+                        if (numberOfArmiesToAdd > armiesOwned) {
+                            cout << "Please add valid number of armies!! Choose again" << endl;
+                        } else {
+                            cout << "Added " << numberOfArmiesToAdd << " army to country "
+                                 << players[i]->getCountries()[countryIndex]->getName()
+                                 << endl;
+                            players[i]->getCountries()[countryIndex]->addArmies(numberOfArmiesToAdd);
+                            indexValid = true;
+                            armiesOwned = armiesOwned - numberOfArmiesToAdd;
+                            validNumber = true;
+                        }
+                    }
+                    //players[i]->getCountries()[countryIndex]->addArmies(1);
 
-                    indexValid = true;
+                    //indexValid = true;
 
                 }
             }
-
+            //}
         }
         armiesOwned--;
     }
@@ -140,12 +164,23 @@ void GameEngine::gameLoop() {
         for(int i = 0; i< players.size(); i++){
             players[i]->reinforce();
             players[i]->attack();
-            players[i]->fortify();
-            if(players[i]->getCountries().size() == gameMap->getCountries().size()){
-                cout<<players[i]->getName()<< " WON THE GAME !! " ;
-                gameFinish = true;
-                break;
-            }
+			int temp = players.size();
+			for (int j = 0; j < temp; j++) {
+				for (int k = 0; k < players.size(); k++) {
+					if (players[k]->getCountries().size() == 0) {
+						players.erase(players.begin() + k);
+						for (int i = 0; i < players.size(); i++) {
+							players[i]->setPlayers(players);
+						}
+						break;
+					}
+				}		
+			}
+			if (players[i]->getCountries().size() == gameMap->getCountries().size()) {
+				gameFinish = true;
+				break;
+			}
+            players[i]->fortify();            
         }
 
     }
@@ -187,6 +222,11 @@ void GameEngine::gameStartUp2() {
     int numberOfCountry = gameMap->getCountries().size();
     int count = 0;
     //Assign countries to players
+	for (int i = 0; i < gameMap->getCountries().size() - 3; i++) {
+		players[0]->addCountry(gameMap->getCountries()[i]);
+		gameMap->getCountries()[i]->setOwner(players[0]);
+		count++;
+	}
     while(count< numberOfCountry){
         for(int i = 0; i< players.size();i++){
             if(count == numberOfCountry)
@@ -201,7 +241,7 @@ void GameEngine::gameStartUp2() {
     switch(numberOfPlayers){
         case 2: numberOfArmies = 40;
             break;
-        case 3: numberOfArmies = 35;
+        case 3: numberOfArmies = 10;
             break;
         case 4: numberOfArmies = 30;
             break;
@@ -214,7 +254,6 @@ void GameEngine::gameStartUp2() {
     cout<<"EACH PLAYER WILL HAVE "<< numberOfArmies<<" NUMBER OF ARMIES"<<endl;
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            cout<< "------------------------"<<players[i]->getName()<<" TURN ------------------"<<endl;
             int armiesOwned = numberOfArmies;
             while (armiesOwned > 0) {
                 cout << players[i]->getName() << " has " << armiesOwned << " left" << endl;
@@ -262,4 +301,88 @@ void GameEngine::gameStartUp2() {
 
 
 
+void GameEngine::gameStartUp3() {
+	//Shuffle the turn
+	random_shuffle(players.begin(), players.end());
+	int numberOfCountry = gameMap->getCountries().size();
+	int count = 0;
+	//Assign countries to players
+	for (int i = 0; i < gameMap->getCountries().size() - 3; i++) {
+		players[0]->addCountry(gameMap->getCountries()[i]);
+		gameMap->getCountries()[i]->setOwner(players[0]);
+		count++;
+	}
+	while (count < numberOfCountry) {
+		for (int i = 0; i < players.size(); i++) {
+			if (count == numberOfCountry)
+				break;
+			players[i]->addCountry(gameMap->getCountries()[count]);
+			gameMap->getCountries()[count]->setOwner(players[i]);
+			count++;
+		}
+	}
+	int numberOfPlayers = players.size();
+	int numberOfArmies = 0;
+	switch (numberOfPlayers) {
+	case 2: numberOfArmies = 40;
+		break;
+	case 3: numberOfArmies = 10;
+		break;
+	case 4: numberOfArmies = 30;
+		break;
+	case 5: numberOfArmies = 25;
+		break;
+	case 6: numberOfArmies = 20;
+	}
+
+	//Prompt player assign armies on their own country !! (not round robin)
+	cout << "EACH PLAYER WILL HAVE " << numberOfArmies << " NUMBER OF ARMIES" << endl;
+
+	for (int i = 0; i < numberOfPlayers; i++) {
+		int armiesOwned = numberOfArmies;
+		while (armiesOwned > 0) {
+			cout << players[i]->getName() << " has " << armiesOwned << " left" << endl;
+			bool indexValid = false;
+			int countryIndex;
+			while (!indexValid) {
+				cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
+				for (int j = 0; j < players[i]->getCountries().size(); j++) {
+					cout << "Index " << j << ": Country " << players[i]->getCountries()[j]->getName() << "  Army:"
+						<< players[i]->getCountries()[j]->getNumberOfArmies() << endl;
+				}
+				cout << players[i]->getName() << " Please choose the index of country you want to add armies ";
+				cin >> countryIndex;
+
+				if (countryIndex < 0 || countryIndex > players[i]->getCountries().size() - 1) {
+					cout << "Invalid index, please choose again!" << endl;
+				}
+				else {
+					//This version ask player to fill in armies until it ends, but it wont be round robin fashion..
+					bool validNumber = false;
+					while (!validNumber) {
+						int numberOfArmiesToAdd;
+						cout << "Please choose number of armies you want to add ";
+						cin >> numberOfArmiesToAdd;
+						if (numberOfArmiesToAdd > armiesOwned) {
+							cout << "Please add valid number of armies!! Choose again" << endl;
+						}
+						else {
+							cout << "Added " << numberOfArmiesToAdd << " army to country "
+								<< players[i]->getCountries()[countryIndex]->getName()
+								<< endl;
+							players[i]->getCountries()[countryIndex]->addArmies(numberOfArmiesToAdd);
+							indexValid = true;
+							armiesOwned = armiesOwned - numberOfArmiesToAdd;
+							validNumber = true;
+						}
+					}
+
+
+				}
+			}
+
+
+		}
+	}
+}
 

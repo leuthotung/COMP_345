@@ -1,10 +1,11 @@
-/*
 //
 // Created by tungleu on 10/11/19.
 //
 #include "MapLoader.h"
 #include "Player.h"
+#include "GameObserver.h"
 #include "GameEngine.h"
+
 int main() {
 
     Map *map = new Map();
@@ -16,6 +17,13 @@ int main() {
     Player* Yifan = new Player("Yifan");
     Yifan->setMap(map);
     vector<Player*> players = {Tung, Young, Yifan};
+	PhaseObserver* TungPhaseObserver = new PhaseObserver(Tung);
+	PhaseObserver* YoungPhaseObserver = new PhaseObserver(Young);
+	PhaseObserver* YifanPhaseObserver = new PhaseObserver(Yifan);
+	GameStaticsObserver* Tung1Observer = new GameStaticsObserver(Tung);
+	GameStaticsObserver* Young1Observer = new GameStaticsObserver(Young);
+	GameStaticsObserver* Yifan1Observer = new GameStaticsObserver(Yifan);
+
     //Add 10 armies to each country
     for(int i = 0; i< map->getCountries().size();i++){
         map->getCountries()[i]->addArmies(10);
@@ -32,8 +40,7 @@ int main() {
         }
     }
     //infinite loop for demo
-   // Deck *deck = new Deck(map->getCountries().size());1
-
+   // Deck *deck = new Deck(map->getCountries().size());
     while(true){
         for(int i = 0; i< players.size();i++){
             players[i]->reinforce();
@@ -47,4 +54,3 @@ int main() {
 
 
 }
-*/
