@@ -17,6 +17,7 @@ using namespace std;
 class Country;
 class Continent;
 class Map;
+class PlayerStrategies;
 class Player {
 
 private:

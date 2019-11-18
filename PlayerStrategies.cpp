@@ -208,7 +208,7 @@ void Human::attack(Player *player) {
             player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->getOwner()->getDice()->roll(numberOfDefenderDices);
             cout << "Your dice value:" << endl;
             for (int i = 0; i < player->getDice()->get_value().size(); i++) {
-                cout << player->getDice()->get_value()[i] << " ";
+                cout << *player->getDice()->get_value()[i] << " ";
             }
             cout << endl;
             cout << "Defender dice value:" << endl;
@@ -223,8 +223,8 @@ void Human::attack(Player *player) {
                 else
                     loseCounter++;
             }
-            player->getCountries()[sourceCountryIndex]->addArmies(-loseCounter);
-            player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(-winCounter);
+            player->getCountries()[sourceCountryIndex]->addArmies(winCounter-loseCounter);
+            player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(loseCounter-winCounter);
         }
         cout << "Do you want to attack again ?(intput 0(false) or 1(true))" << endl;
         while (true) {
@@ -361,13 +361,15 @@ void Aggresive::attack(Player *player) {
     for(int i = 0; i< countriesToAttack.size(); i++){
 
         while(true) {
+
             Country *defender = countriesToAttack[i];
+            cout<<strongestCountry->getName() <<"is attacking "<< defender->getName()<< " Owner: "<< defender->getOwner()->getName() <<endl;
             if(defender->getNumberOfArmies() == 0){
                 cout <<"There is no army left in defending country "<<endl;
                 defender->getOwner()->removeCountry(defender);
                 player->addCountry(defender);
                 player->getHand()->draw(player->getMap()->getDeck());
-                break;
+                break;  
             }
             int numberOfAttackerDices = 0, numberOfDefenderDices = 0;
             if (strongestCountry->getNumberOfArmies() >= 4) {
@@ -399,12 +401,12 @@ void Aggresive::attack(Player *player) {
             defender->getOwner()->getDice()->roll(numberOfDefenderDices);
             cout << "Your dice value:" << endl;
             for (int i = 0; i < player->getDice()->get_value().size(); i++) {
-                cout << player->getDice()->get_value()[i] << " ";
+                cout << *player->getDice()->get_value()[i] << " ";
             }
             cout << endl;
             cout << "Defender dice value:" << endl;
             for (int i = 0; i < defender->getOwner()->getDice()->get_value().size(); i++) {
-                cout << defender->getOwner()->getDice()->get_value()[i] << " ";
+                cout << *defender->getOwner()->getDice()->get_value()[i] << " ";
             }
             cout << endl;
             //Decide win or lose
@@ -417,6 +419,7 @@ void Aggresive::attack(Player *player) {
                 else
                     loseCounter++;
             }
+
             strongestCountry->addArmies(winCounter - loseCounter);
             defender->addArmies(loseCounter - winCounter);
         }

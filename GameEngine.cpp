@@ -138,6 +138,7 @@ void GameEngine::gameLoop() {
     bool gameFinish = false;
     while(!gameFinish){
         for(int i = 0; i< players.size(); i++){
+            players[i]->chooseStrategy();
             players[i]->reinforce();
             players[i]->attack();
             players[i]->fortify();

@@ -6,6 +6,7 @@
 #define COMP345_PLAYERSTRATEGIES_H
 
 #include "Player.h"
+class Player;
 class PlayerStrategies {
 public:
     virtual void reinforce(Player* player)= 0;
