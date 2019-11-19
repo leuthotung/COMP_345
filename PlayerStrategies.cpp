@@ -3,11 +3,12 @@
 //
 
 #include "PlayerStrategies.h"
+#include "Player.h"
+#include "GameObservers.h"
 
 void Human::reinforce(Player* player) {
     int armyCounter = 0;
     bool exchangeFlag = false;
-    cout << "------------------REINFORCE PHASE START-------------------------" << endl;
     int armiesFromNumberOfCountries = player->getCountries().size()/3;
     cout<< player->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< player->getCountries().size()<< " countries"<<endl;
     armyCounter += armiesFromNumberOfCountries;
@@ -57,16 +58,16 @@ void Human::reinforce(Player* player) {
                         indexValid = true;
                         armyCounter = armyCounter - numberOfArmiesToAdd;
                         validNumber = true;
+                        player->setObserverSelect(0);
+                        player->Notify();
+
                     }
                 }
             }
         }
     }
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
-    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    player->showInformation();
-    cout << "----------------------------------------------------------------------" << endl;
-    cout << "--------------------REINFORCE PHASE END--------------------------" << endl;
+
 
 
 }
@@ -78,7 +79,6 @@ void Human::attack(Player *player) {
     int targetCountryIndex = 0;
     int winCounter=0;
     int loseCounter = 0;
-    cout << "--------------------ATTACK PHASE START--------------------------" << endl;
     cout << "Do you want to attack? (intput 0(false) or 1(true) )" << endl;
     while (true) {
         if (cin >> attackFlag)
@@ -91,9 +91,8 @@ void Human::attack(Player *player) {
     }
 
     while(attackFlag){
-        cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-        player->showInformation();
-        cout << "----------------------------------------------------------------------" << endl;
+        player->setObserverSelect(0);
+        player->Notify();
         cout << "Choose the index of SOURCE country " << endl;
         while (true) {
             cin >> sourceCountryIndex;
@@ -135,6 +134,19 @@ void Human::attack(Player *player) {
                         player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
                 player->addCountry(player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex));
                 player->getHand()->draw(player->getMap()->getDeck());
+                player->setObserverSelect(1);
+                player->Notify();
+                int changeArmy = 0;
+                cout << "Please move a number of armies from the attacking country to the attacked country,in the range [1 to " << player->getCountries()[sourceCountryIndex]->getNumberOfArmies() - 1 << "]" << endl;
+                while (true) {
+                    cin >> changeArmy;
+                    if (changeArmy <= 0 || changeArmy > player->getCountries()[sourceCountryIndex]->getNumberOfArmies() - 1)
+                        cout << "invalid input,X must be in the range [1 to " << player->getCountries()[sourceCountryIndex]->getNumberOfArmies() - 1 << "]" << endl;
+                    else
+                        break;
+                }
+                player->getCountries()[sourceCountryIndex]->addArmies(-changeArmy);
+                player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
                 break;
             }
             cout << "Do you want to continue attack current country?(intput 0(false) or 1(true))" << endl;
@@ -223,8 +235,8 @@ void Human::attack(Player *player) {
                 else
                     loseCounter++;
             }
-            player->getCountries()[sourceCountryIndex]->addArmies(winCounter-loseCounter);
-            player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(loseCounter-winCounter);
+            player->getCountries()[sourceCountryIndex]->addArmies(-loseCounter);
+            player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(-winCounter);
         }
         cout << "Do you want to attack again ?(intput 0(false) or 1(true))" << endl;
         while (true) {
@@ -299,13 +311,12 @@ void Human::fortify(Player *player) {
         }
         player->getCountries()[sourceCountryIndex]->addArmies(-changeArmy);
         player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
-        cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-        player->showInformation();
-        cout << "----------------------------------------------------------------------" << endl;
-        cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
+        player->setObserverSelect(0);
+        player->Notify();
+
     }
     else {
-        cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
+
 
     }
 
@@ -334,17 +345,18 @@ void Aggresive::reinforce(Player *player) {
     cout << "Added " <<armyCounter << " army to country "
          << strongestCountry->getName()
          << endl;
+    player->setObserverSelect(0);
+    player->Notify();
 
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
-    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    player->showInformation();
-    cout << "----------------------------------------------------------------------" << endl;
-    cout << "--------------------REINFORCE PHASE END--------------------------" << endl;
+
 
 }
 
 void Aggresive::attack(Player *player) {
-    cout << "--------------------ATTACK PHASE START--------------------------" << endl;
+    player->setObserverSelect(0);
+    player->Notify();
+
     int maxArmies =0;
     Country *strongestCountry ;
     for(int i = 0; i < player->getCountries().size();i++){
@@ -369,7 +381,10 @@ void Aggresive::attack(Player *player) {
                 defender->getOwner()->removeCountry(defender);
                 player->addCountry(defender);
                 player->getHand()->draw(player->getMap()->getDeck());
-                break;  
+                player->setObserverSelect(1);
+                player->Notify();
+
+                break;
             }
             int numberOfAttackerDices = 0, numberOfDefenderDices = 0;
             if (strongestCountry->getNumberOfArmies() >= 4) {
@@ -420,19 +435,19 @@ void Aggresive::attack(Player *player) {
                     loseCounter++;
             }
 
-            strongestCountry->addArmies(winCounter - loseCounter);
-            defender->addArmies(loseCounter - winCounter);
+            strongestCountry->addArmies(-loseCounter);
+            defender->addArmies(-winCounter);
         }
 
 
 
     }
-    cout << "--------------------ATTACK PHASE END--------------------------" << endl;
+
 
 
 }
 void Aggresive::fortify(Player *player) {
-    cout << "--------------------FORTIFICATION PHASE START--------------------------" << endl;
+
     int maxArmies =0;
     Country *strongestCountry ;
     for(int i = 0; i < player->getCountries().size();i++){
@@ -451,17 +466,20 @@ void Aggresive::fortify(Player *player) {
             int changeArmy = ownedNeigbors[i]->getNumberOfArmies() -1;
             strongestCountry->addArmies(changeArmy);
             ownedNeigbors[i]->addArmies(-changeArmy);
+            player->setObserverSelect(0);
+            player->Notify();
 
+
+            break;
         }
     }
-    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    player->showInformation();
-    cout << "----------------------------------------------------------------------" << endl;
-    cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
+
 
 }
 
 void Benevolent::reinforce(Player *player) {
+
+
     Country *weakestCountry = player->getCountries()[0];
     for (int i = 0; i< player->getCountries().size();i++){
         if( player->getCountries()[i]->getNumberOfArmies()< weakestCountry->getNumberOfArmies()){
@@ -469,7 +487,6 @@ void Benevolent::reinforce(Player *player) {
         }
     }
     int armyCounter = 0;
-    cout << "------------------REINFORCE PHASE START-------------------------" << endl;
     int armiesFromNumberOfCountries = player->getCountries().size()/3;
     cout<< player->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< player->getCountries().size()<< " countries"<<endl;
     armyCounter += armiesFromNumberOfCountries;
@@ -483,18 +500,18 @@ void Benevolent::reinforce(Player *player) {
          << weakestCountry->getName()
          << endl;
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
-    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    player->showInformation();
-    cout << "----------------------------------------------------------------------" << endl;
-    cout << "--------------------REINFORCE PHASE END--------------------------" << endl;
+    player->setObserverSelect(0);
+    player->Notify();
+
+
 }
 void Benevolent::attack(Player *player) {
-    cout << "--------------------ATTACK PHASE START--------------------------" << endl;
+
     cout <<"---Player is Benvolent, no attack will be occured----------------" <<endl;
-    cout << "--------------------ATTACK PHASE END--------------------------" << endl;
+
 }
 void Benevolent::fortify(Player *player) {
-    cout << "--------------------FORTIFICATION PHASE START--------------------------" << endl;
+
     int maxArmies =0;
     Country *weakestCountry = player->getCountries()[0];
     for(int i = 0; i < player->getCountries().size();i++){
@@ -513,11 +530,13 @@ void Benevolent::fortify(Player *player) {
             int changeArmy = ownedNeigbors[i]->getNumberOfArmies() -1;
             weakestCountry->addArmies(changeArmy);
             ownedNeigbors[i]->addArmies(-changeArmy);
+            break;
 
         }
     }
-    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    player->showInformation();
-    cout << "----------------------------------------------------------------------" << endl;
-    cout << "--------------------FORTIFICATION PHASE END--------------------------" << endl;
+    player->setObserverSelect(0);
+    player->Notify();
+
+
+
 }

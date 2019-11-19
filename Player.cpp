@@ -1,13 +1,42 @@
-#include "Player.h"
+
 #include <string>
 #include "Map.h"
-
+#include <list>
+#include "GameObservers.h"
+#include "Player.h"
 using namespace std;
+
+
+Subject::Subject() {
+    _observers = new list<GameObservers*>;
+}
+Subject::~Subject() {
+    delete _observers;
+}
+void Subject::Attach(GameObservers* o) {
+    _observers->push_back(o);
+};
+void Subject::Detach(GameObservers* o) {
+    _observers->remove(o);
+};
+
+void Subject::Notify() {
+    list<GameObservers*>::iterator i = _observers->begin();
+    for (; i != _observers->end(); ++i)
+        (*i)->Update();
+};
+
+
+
+
+
 
 Player::Player(string name) {
     this->name = new string(name);
     this->hand = new Hand();
     this->dice = new Dice();
+    this->phase = new string("null");
+    this->observerSelect = new int(2);
 }
 
 Player::Player() {
@@ -87,14 +116,23 @@ int Player::armiesFromContinent() {
 
 }
 void Player::reinforce() {
+    *phase = "Reinforce";
+    *observerSelect = 2;
+    Notify();
     this->strategies->reinforce(this);
 }
 
 void Player::attack() {
+    *phase = "Attack";
+    *observerSelect = 1;
+    Notify();
     this->strategies->attack(this);
 }
 
 void Player::fortify() {
+    *phase = "Foritify";
+    *observerSelect=2;
+    Notify();
     this->strategies->fortify(this);
 }
 
@@ -130,6 +168,27 @@ void Player::chooseStrategy() {
     }
 
 
+
+}
+
+int Player::getObserverSelect() {
+    return *observerSelect;
+}
+
+string Player::getPhase() {
+    return *phase;
+}
+
+vector<Player*> Player::getPlayers() {
+    return players;
+}
+
+void Player::setPlayers(vector <Player*> gamePlayers) {
+    players = gamePlayers;
+}
+
+void Player::setObserverSelect(int i ) {
+    *observerSelect = i;
 
 }
 

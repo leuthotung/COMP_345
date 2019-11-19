@@ -36,6 +36,7 @@ void GameEngine::gameInit(vector<string> maps) {
                 this->setMap(map);
                 valid = false;
                 cout << "Map " << maps[mapNumber] << " has been chosen" << endl;
+
             }
             else{
                 cout<<"The number is out of index please choose again"<<endl;
@@ -59,10 +60,17 @@ void GameEngine::gameInit(vector<string> maps) {
         cin>>name;
         Player*player = new Player(name);
         player->setMap(this->gameMap);
+        PhaseObserver* phaseObserver = new PhaseObserver(player);
+        GameStatsObserver* gameStaticsObserver = new GameStatsObserver(player);
         gamePlayers.push_back(player);
 
     }
     this->setPlayers(gamePlayers);
+    //Set pointer to players to Player
+    for(int i = 0;i<numberOfPlayers;i++){
+        players[i]->setPlayers(players);
+    }
+
 
 }
 //Start-up phase
@@ -141,12 +149,22 @@ void GameEngine::gameLoop() {
             players[i]->chooseStrategy();
             players[i]->reinforce();
             players[i]->attack();
-            players[i]->fortify();
-            if(players[i]->getCountries().size() == gameMap->getCountries().size()){
-                cout<<players[i]->getName()<< " WON THE GAME !! " ;
-                gameFinish = true;
-                break;
+            int temp = players.size();
+
+            //Eliminate losers
+            for (int j = 0; j < temp; j++) {
+                for (int k = 0; k < players.size(); k++) {
+                    if (players[k]->getCountries().size() == 0) {
+                        players.erase(players.begin() + k);
+
+                        for (int i = 0; i < players.size(); i++) {
+                            players[i]->setPlayers(players);
+                        }
+                        break;
+                    }
+                }
             }
+            players[i]->fortify();
         }
 
     }
