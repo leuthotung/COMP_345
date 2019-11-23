@@ -6,7 +6,11 @@
 #include "Player.h"
 using namespace std;
 
-
+static void clear(){
+    for (int i = 0; i<50;i++){
+        cout<<"\n";
+    }
+}
 Subject::Subject() {
     _observers = new list<GameObservers*>;
 }
@@ -116,6 +120,7 @@ int Player::armiesFromContinent() {
 
 }
 void Player::reinforce() {
+    clear();
     *phase = "Reinforce";
     *observerSelect = 2;
     Notify();
@@ -123,13 +128,15 @@ void Player::reinforce() {
 }
 
 void Player::attack() {
+    clear();
     *phase = "Attack";
-    *observerSelect = 1;
+    *observerSelect = 2;
     Notify();
     this->strategies->attack(this);
 }
 
 void Player::fortify() {
+    clear();
     *phase = "Foritify";
     *observerSelect=2;
     Notify();

@@ -4,8 +4,11 @@
 
 #include "PlayerStrategies.h"
 #include "Player.h"
-#include "GameObservers.h"
-
+static void clear(){
+    for (int i = 0; i<50;i++){
+        cout<<"\n";
+    }
+}
 void Human::reinforce(Player* player) {
     int armyCounter = 0;
     bool exchangeFlag = false;
@@ -67,6 +70,26 @@ void Human::reinforce(Player* player) {
         }
     }
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
+    bool nextPhaseFlag = false;
+    while (true) {
+        cout << "Do you want to end this phase and start attack phase? input 0(false) or 1(true)" << endl;
+        while (true) {
+            if (cin >> nextPhaseFlag)
+                break;
+            else {
+                cout << "invalid input" << endl;
+                cin.clear();
+                cin.ignore();
+            }
+        }
+        if (nextPhaseFlag == true)
+        {
+            clear();
+            break;
+        }
+        else
+            cout << "ALL ARMIES ARE PLACED SUCCESSFULLY, NOTHING TO DO IN REINFORCE PHASE" << endl;
+    }
 
 
 
@@ -91,8 +114,6 @@ void Human::attack(Player *player) {
     }
 
     while(attackFlag){
-        player->setObserverSelect(0);
-        player->Notify();
         cout << "Choose the index of SOURCE country " << endl;
         while (true) {
             cin >> sourceCountryIndex;
@@ -251,8 +272,9 @@ void Human::attack(Player *player) {
         if (!attackFlag)
             break;
     }
+    clear();
 
-    cout << "--------------------ATTACK PHASE END--------------------------" << endl;
+
 }
 
 void Human::fortify(Player *player) {
@@ -260,7 +282,6 @@ void Human::fortify(Player *player) {
     int sourceCountryIndex = 0;
     int targetCountryIndex = 0;
     int changeArmy = 0;
-    cout << "--------------------FORTIFICATION PHASE START--------------------------" << endl;
     cout << "Do you want to fortify? (intput 0(false) or 1(true) )" << endl;
     while (true) {
         if (cin >> fortifyFlag)
@@ -313,19 +334,41 @@ void Human::fortify(Player *player) {
         player->getCountries()[sourceCountryIndex]->getNeigbors().at(targetCountryIndex)->addArmies(changeArmy);
         player->setObserverSelect(0);
         player->Notify();
-
+        bool nextPhaseFlag = false;
+        while (true) {
+            cout << "Do you want to end this phase? input 0(false) or 1(true)" << endl;
+            while (true) {
+                if (cin >> nextPhaseFlag)
+                    break;
+                else {
+                    cout << "invalid input" << endl;
+                    cin.clear();
+                    cin.ignore();
+                }
+            }
+            if (nextPhaseFlag == true)
+            {
+                clear();
+                break;
+            }
+            else
+                cout << "PLEASE END YOUR PHASE AFTER CHECKING YOUR INFORMATION" << endl;
+        }
     }
     else {
-
+        clear();
 
     }
 
-}
+    }
+
+
+
+
+
 
 void Aggresive::reinforce(Player *player) {
     int armyCounter = 0;
-
-    cout << "------------------REINFORCE PHASE START-------------------------" << endl;
     int armiesFromNumberOfCountries = player->getCountries().size()/3;
     cout<< player->getName() << " has " << armiesFromNumberOfCountries <<" armies for occupying "<< player->getCountries().size()<< " countries"<<endl;
     armyCounter += armiesFromNumberOfCountries;
@@ -349,6 +392,26 @@ void Aggresive::reinforce(Player *player) {
     player->Notify();
 
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
+    bool nextPhaseFlag = false;
+    while (true) {
+        cout << "Do you want to end this phase and start attack phase? input 0(false) or 1(true)" << endl;
+        while (true) {
+            if (cin >> nextPhaseFlag)
+                break;
+            else {
+                cout << "invalid input" << endl;
+                cin.clear();
+                cin.ignore();
+            }
+        }
+        if (nextPhaseFlag == true)
+        {
+            clear();
+            break;
+        }
+        else
+            cout << "ALL ARMIES ARE PLACED SUCCESSFULLY, NOTHING TO DO IN REINFORCE PHASE" << endl;
+    }
 
 
 }
@@ -375,7 +438,7 @@ void Aggresive::attack(Player *player) {
         while(true) {
 
             Country *defender = countriesToAttack[i];
-            cout<<strongestCountry->getName() <<"is attacking "<< defender->getName()<< " Owner: "<< defender->getOwner()->getName() <<endl;
+            cout<<strongestCountry->getName() <<" is attacking "<< defender->getName()<< " DEFENDER COUNTRY OWNER: "<< defender->getOwner()->getName() <<endl;
             if(defender->getNumberOfArmies() == 0){
                 cout <<"There is no army left in defending country "<<endl;
                 defender->getOwner()->removeCountry(defender);
@@ -442,6 +505,26 @@ void Aggresive::attack(Player *player) {
 
 
     }
+    bool nextPhaseFlag = false;
+    while (true) {
+        cout << "Do you want to end this phase and start fortify phase? input 0(false) or 1(true)" << endl;
+        while (true) {
+            if (cin >> nextPhaseFlag)
+                break;
+            else {
+                cout << "invalid input" << endl;
+                cin.clear();
+                cin.ignore();
+            }
+        }
+        if (nextPhaseFlag == true)
+        {
+            clear();
+            break;
+        }
+        else
+            cout << "NOTHING TO DO IN ATTACK PHASE " << endl;
+    }
 
 
 
@@ -475,6 +558,7 @@ void Aggresive::fortify(Player *player) {
     }
 
 
+
 }
 
 void Benevolent::reinforce(Player *player) {
@@ -502,12 +586,52 @@ void Benevolent::reinforce(Player *player) {
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
     player->setObserverSelect(0);
     player->Notify();
+    bool nextPhaseFlag = false;
+    while (true) {
+        cout << "Do you want to end this phase and start attack phase? input 0(false) or 1(true)" << endl;
+        while (true) {
+            if (cin >> nextPhaseFlag)
+                break;
+            else {
+                cout << "invalid input" << endl;
+                cin.clear();
+                cin.ignore();
+            }
+        }
+        if (nextPhaseFlag == true)
+        {
+            clear();
+            break;
+        }
+        else
+            cout << "ALL ARMIES ARE PLACED SUCCESSFULLY, NOTHING TO DO IN REINFORCE PHASE" << endl;
+    }
 
 
 }
 void Benevolent::attack(Player *player) {
 
     cout <<"---Player is Benvolent, no attack will be occured----------------" <<endl;
+    bool nextPhaseFlag = false;
+    while (true) {
+        cout << "Do you want to end this phase and start fortify phase? input 0(false) or 1(true)" << endl;
+        while (true) {
+            if (cin >> nextPhaseFlag)
+                break;
+            else {
+                cout << "invalid input" << endl;
+                cin.clear();
+                cin.ignore();
+            }
+        }
+        if (nextPhaseFlag == true)
+        {
+            clear();
+            break;
+        }
+        else
+            cout << "NOTHING TO DO IN ATTACK PHASE " << endl;
+    }
 
 }
 void Benevolent::fortify(Player *player) {
@@ -536,7 +660,26 @@ void Benevolent::fortify(Player *player) {
     }
     player->setObserverSelect(0);
     player->Notify();
-
+    bool nextPhaseFlag = false;
+    while (true) {
+        cout << "Do you want to end this phase? input 0(false) or 1(true)" << endl;
+        while (true) {
+            if (cin >> nextPhaseFlag)
+                break;
+            else {
+                cout << "invalid input" << endl;
+                cin.clear();
+                cin.ignore();
+            }
+        }
+        if (nextPhaseFlag == true)
+        {
+            clear();
+            break;
+        }
+        else
+            cout << "PLEASE END YOUR PHASE AFTER CHECKING YOUR INFORMATION" << endl;
+    }
 
 
 }

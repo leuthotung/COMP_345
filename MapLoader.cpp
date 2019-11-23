@@ -389,7 +389,7 @@ Map readConquestMapFile(string file) {
 }
 
 
-
+//Read conquest file
 Map Adaptee::readMapFile(string file) {
     Map map;
     ifstream inputFile(file);

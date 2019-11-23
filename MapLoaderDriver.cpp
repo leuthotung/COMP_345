@@ -6,21 +6,17 @@
 
 using namespace std;
 
-/*
 int main() {
-*/
 /*    Map a = readMapFile("../Maps/europe.map");
-    a.print()*//*
+    a.print()*/
 ;
-    //read a fail map
-    */
-/*Map b = readMapFile("../Maps/test.map");
-    return 0;*//*
+/*    //read a fail map
+Map b = readMapFile("../Maps/test.map");
+    return 0;*/
 
 
- */
 /*   Map a = readConquestMapFile("../ConquestMap/Alabama.map");
-    a.print();*//*
+    a.print()*/;
 
  //MapLoader mapload;
 // Map a = mapload.readMapFile("../Maps/europe.map");
@@ -31,4 +27,3 @@ int main() {
  b.print();
     return 0;
 }
-*/
