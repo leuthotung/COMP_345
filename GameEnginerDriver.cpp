@@ -1,3 +1,4 @@
+/*
 #include <dirent.h>
 #include <iostream>
 #include <string>
@@ -8,11 +9,10 @@
 using namespace std;
 
 
-/*
 int main() {
     GameEngine game = GameEngine();
     game.gameInit(game.getMapFiles("../Maps"));
-    game.gameStartUp();
+    game.gameStartUp2();
     game.gameLoop();
 
 

@@ -8,13 +8,16 @@ using namespace std;
 
 int main() {
 /*    Map a = readMapFile("../Maps/europe.map");
-    a.print()*/;
-    //read a fail map
-    /*Map b = readMapFile("../Maps/test.map");
+    a.print()*/
+;
+/*    //read a fail map
+Map b = readMapFile("../Maps/test.map");
     return 0;*/
 
- /*   Map a = readConquestMapFile("../ConquestMap/Alabama.map");
-    a.print();*/
+
+/*   Map a = readConquestMapFile("../ConquestMap/Alabama.map");
+    a.print()*/;
+
  //MapLoader mapload;
 // Map a = mapload.readMapFile("../Maps/europe.map");
  //a.print();
