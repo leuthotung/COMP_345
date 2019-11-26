@@ -224,31 +224,37 @@ void Human::attack(Player *player) {
             }
             player->getDice()->roll(numberOfAttackerDices);
             cout << "DEFENDER TURN TO CHOOSE NUMBER OF DICE" << endl;
-            while (true) {
-                winCounter = 0;
-                loseCounter = 0;
-                if (player->getCountries()[sourceCountryIndex]->getNeigbors().at(
-                        targetCountryIndex)->getNumberOfArmies() >= 2) {
-                    cout << "How many dices would you like to roll? Please enter a number between 1 and 2 " << endl;
-                    cin >> numberOfDefenderDices;
-                    if (numberOfDefenderDices < 1 || numberOfDefenderDices > 2) {
-                        cout << "Invalid number! Please try again." << endl;
-                    } else {
+            if (player->getCountries()[sourceCountryIndex]->getNeigbors().at(
+                    targetCountryIndex)->getOwner()->getStrategy()->getName() == "Human") {
+                while (true) {
+                    winCounter = 0;
+                    loseCounter = 0;
+                    if (player->getCountries()[sourceCountryIndex]->getNeigbors().at(
+                            targetCountryIndex)->getNumberOfArmies() >= 2) {
+                        cout << "How many dices would you like to roll? Please enter a number between 1 and 2 " << endl;
+                        cin >> numberOfDefenderDices;
+                        if (numberOfDefenderDices < 1 || numberOfDefenderDices > 2) {
+                            cout << "Invalid number! Please try again." << endl;
+                        } else {
+                            break;
+                        }
+                    } else if (player->getCountries()[sourceCountryIndex]->getNeigbors().at(
+                            targetCountryIndex)->getNumberOfArmies() == 1) {
+                        cout << "How many dices would you like to roll? Please enter a number between 1 and "
+                             << player->getCountries()[sourceCountryIndex]->getNeigbors().at(
+                                     targetCountryIndex)->getNumberOfArmies() << endl;
+                        cin >> numberOfDefenderDices;
+                        if (numberOfDefenderDices != 1) {
+                            cout << "Invalid number! Please try again." << endl;
+                        } else {
+                            break;
+                        }
+                    } else
                         break;
-                    }
-                } else if (player->getCountries()[sourceCountryIndex]->getNeigbors().at(
-                        targetCountryIndex)->getNumberOfArmies() == 1) {
-                    cout << "How many dices would you like to roll? Please enter a number between 1 and "
-                         << player->getCountries()[sourceCountryIndex]->getNeigbors().at(
-                                 targetCountryIndex)->getNumberOfArmies() << endl;
-                    cin >> numberOfDefenderDices;
-                    if (numberOfDefenderDices != 1) {
-                        cout << "Invalid number! Please try again." << endl;
-                    } else {
-                        break;
-                    }
-                } else
-                    break;
+                }
+            }
+            else{
+                numberOfDefenderDices=rand()%2+1;
             }
             player->getCountries()[sourceCountryIndex]->getNeigbors().at(
                     targetCountryIndex)->getOwner()->getDice()->roll(numberOfDefenderDices);
@@ -413,24 +419,6 @@ void Aggressive::reinforce(Player *player) {
 
     cout << "ALL ARMIES ARE PLACED SUCCESSFULLY" << endl;
 
-//    bool nextPhaseFlag = false;
-//    while (true) {
-//        cout << "Do you want to end this phase and start attack phase? input 0(false) or 1(true)" << endl;
-//        while (true) {
-//            if (cin >> nextPhaseFlag)
-//                break;
-//            else {
-//                cout << "invalid input" << endl;
-//                cin.clear();
-//                cin.ignore();
-//            }
-//        }
-//        if (nextPhaseFlag) {
-//            clear();
-//            break;
-//        } else
-//            cout << "ALL ARMIES ARE PLACED SUCCESSFULLY, NOTHING TO DO IN REINFORCE PHASE" << endl;
-//    }
     cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
     player->showInformation();
     cout << "----------------------------------------------------------------------" << endl;
@@ -484,20 +472,25 @@ void Aggressive::attack(Player *player) {
             }
 
             cout << "DEFENDER TURN TO CHOOSE NUMBER OF DICE" << endl;
-            while (true) {
-                if (defender->getNumberOfArmies() >= 2) {
-                    cout << "How many dices would you like to roll? Please enter a number between 1 and 2 " << endl;
-                    cin >> numberOfDefenderDices;
-                    if (numberOfDefenderDices < 1 || numberOfDefenderDices > 2) {
-                        cout << "Invalid number! Please try again." << endl;
-                    } else {
+            if (defender->getOwner()->getStrategy()->getName() == "Human") {
+                while (true) {
+                    if (defender->getNumberOfArmies() >= 2) {
+                        cout << "How many dices would you like to roll? Please enter a number between 1 and 2 " << endl;
+                        cin >> numberOfDefenderDices;
+                        if (numberOfDefenderDices < 1 || numberOfDefenderDices > 2) {
+                            cout << "Invalid number! Please try again." << endl;
+                        } else {
+                            break;
+                        }
+                    } else if (defender->getNumberOfArmies() == 1) {
+                        numberOfDefenderDices = 1;
+                    } else
                         break;
-                    }
-                } else if (defender->getNumberOfArmies() == 1) {
-                    numberOfDefenderDices = 1;
-                } else
-                    break;
 
+                }
+            }
+            else{
+                numberOfDefenderDices=rand()%2+1;
             }
             player->getDice()->roll(numberOfAttackerDices);
             defender->getOwner()->getDice()->roll(numberOfDefenderDices);
@@ -528,24 +521,6 @@ void Aggressive::attack(Player *player) {
 
 
     }
-//    bool nextPhaseFlag = false;
-//    while (true) {
-//        cout << "Do you want to end this phase and start fortify phase? input 0(false) or 1(true)" << endl;
-//        while (true) {
-//            if (cin >> nextPhaseFlag)
-//                break;
-//            else {
-//                cout << "invalid input" << endl;
-//                cin.clear();
-//                cin.ignore();
-//            }
-//        }
-//        if (nextPhaseFlag) {
-//            clear();
-//            break;
-//        } else
-//            cout << "NOTHING TO DO IN ATTACK PHASE " << endl;
-//    }
     cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
     player->showInformation();
     cout << "----------------------------------------------------------------------" << endl;
@@ -615,23 +590,6 @@ void Benevolent::reinforce(Player *player) {
     player->setObserverSelect(0);
     player->Notify();
     bool nextPhaseFlag = false;
-//    while (true) {
-//        cout << "Do you want to end this phase and start attack phase? input 0(false) or 1(true)" << endl;
-//        while (true) {
-//            if (cin >> nextPhaseFlag)
-//                break;
-//            else {
-//                cout << "invalid input" << endl;
-//                cin.clear();
-//                cin.ignore();
-//            }
-//        }
-//        if (nextPhaseFlag) {
-//            clear();
-//            break;
-//        } else
-//            cout << "ALL ARMIES ARE PLACED SUCCESSFULLY, NOTHING TO DO IN REINFORCE PHASE" << endl;
-//    }
     cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
     player->showInformation();
     cout << "----------------------------------------------------------------------" << endl;
@@ -642,25 +600,6 @@ void Benevolent::reinforce(Player *player) {
 void Benevolent::attack(Player *player) {
     cout << "------------------ATTACK PHASE START-------------------------" << endl;
     cout << "---Player is Benevolent, no attack will be occurred----------------" << endl;
-//    bool nextPhaseFlag = false;
-//    while (true) {
-//        cout << "Do you want to end this phase and start fortify phase? input 0(false) or 1(true)" << endl;
-//        while (true) {
-//            if (cin >> nextPhaseFlag)
-//                break;
-//            else {
-//                cout << "invalid input" << endl;
-//                cin.clear();
-//                cin.ignore();
-//            }
-//        }
-//        if (nextPhaseFlag) {
-//            clear();
-//            break;
-//        } else
-//            cout << "NOTHING TO DO IN ATTACK PHASE " << endl;
-//    }
-
 }
 
 void Benevolent::fortify(Player *player) {
@@ -689,24 +628,7 @@ void Benevolent::fortify(Player *player) {
     }
     player->setObserverSelect(0);
     player->Notify();
-//    bool nextPhaseFlag = false;
-//    while (true) {
-//        cout << "Do you want to end this phase? input 0(false) or 1(true)" << endl;
-//        while (true) {
-//            if (cin >> nextPhaseFlag)
-//                break;
-//            else {
-//                cout << "invalid input" << endl;
-//                cin.clear();
-//                cin.ignore();
-//            }
-//        }
-//        if (nextPhaseFlag == true) {
-//            clear();
-//            break;
-//        } else
-//            cout << "PLEASE END YOUR PHASE AFTER CHECKING YOUR INFORMATION" << endl;
-//    }
+
     cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
     player->showInformation();
     cout << "----------------------------------------------------------------------" << endl;
@@ -789,20 +711,25 @@ void Random::attack(Player *player) {
         }
 
         cout << "DEFENDER TURN TO CHOOSE NUMBER OF DICE" << endl;
-        while (true) {
-            if (countryToBeAttacked->getNumberOfArmies() >= 2) {
-                cout << "How many dices would you like to roll? Please enter a number between 1 and 2 " << endl;
-                cin >> numberOfDefenderDices;
-                if (numberOfDefenderDices < 1 || numberOfDefenderDices > 2) {
-                    cout << "Invalid number! Please try again." << endl;
-                } else {
+        if (countryToBeAttacked->getOwner()->getStrategy()->getName() == "Human") {
+            while (true) {
+                if (countryToBeAttacked->getNumberOfArmies() >= 2) {
+                    cout << "How many dices would you like to roll? Please enter a number between 1 and 2 " << endl;
+                    cin >> numberOfDefenderDices;
+                    if (numberOfDefenderDices < 1 || numberOfDefenderDices > 2) {
+                        cout << "Invalid number! Please try again." << endl;
+                    } else {
+                        break;
+                    }
+                } else if (countryToBeAttacked->getNumberOfArmies() == 1) {
+                    numberOfDefenderDices = 1;
+                } else
                     break;
-                }
-            } else if (countryToBeAttacked->getNumberOfArmies() == 1) {
-                numberOfDefenderDices = 1;
-            } else
-                break;
 
+            }
+        }
+        else{
+            numberOfDefenderDices=rand()%2+1;
         }
         player->getDice()->roll(numberOfAttackerDices);
         countryToBeAttacked->getOwner()->getDice()->roll(numberOfDefenderDices);

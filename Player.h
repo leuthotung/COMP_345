@@ -70,6 +70,7 @@ public:
     vector<Player*> getPlayers();
     void setPlayers(vector<Player*> player);
     void setObserverSelect(int i);
+    PlayerStrategies* getStrategy();
 };
 
 #endif

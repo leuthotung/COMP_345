@@ -208,3 +208,7 @@ void Player::setObserverSelect(int i ) {
     *observerSelect = i;
 
 }
+
+PlayerStrategies* Player::getStrategy() {
+    return this->strategies;
+}
