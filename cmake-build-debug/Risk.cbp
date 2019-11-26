@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Risk"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/yunwei/Desktop/Risk/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/yunwei/Desktop/Risk/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/yunwei/Desktop/Risk/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Risk">
+				<Option output="/Users/yunwei/Desktop/Risk/cmake-build-debug/Risk" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/yunwei/Desktop/Risk/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/yunwei/Desktop/Risk/."/>
+					<Add directory="/Users/yunwei/Desktop/Risk/ConquestMap"/>
+					<Add directory="/Users/yunwei/Desktop/Risk/Maps"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 Risk"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Risk/fast">
+				<Option output="/Users/yunwei/Desktop/Risk/cmake-build-debug/Risk" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/yunwei/Desktop/Risk/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/yunwei/Desktop/Risk/."/>
+					<Add directory="/Users/yunwei/Desktop/Risk/ConquestMap"/>
+					<Add directory="/Users/yunwei/Desktop/Risk/Maps"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 Risk/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/yunwei/Desktop/Risk/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/yunwei/Desktop/Risk/CardDriver.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Cards.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Cards.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/ConquestMap/Alabama.map">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Dice.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Dice.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/DiceDriver.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/GameEngine.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/GameEngine.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/GameEnginerDriver.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/GameObservers.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/GameObservers.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Map.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Map.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/MapDriver.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/MapLoader.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/MapLoader.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/MapLoaderDriver.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Maps/canada.map">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Maps/estonia.map">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Maps/europe.map">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Maps/sw_baltic.map">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Maps/test.map">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Player.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/Player.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/PlayerDriver.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/PlayerStrategies.cpp">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/PlayerStrategies.h">
+			<Option target="Risk"/>
+		</Unit>
+		<Unit filename="/Users/yunwei/Desktop/Risk/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

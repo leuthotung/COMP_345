@@ -8,17 +8,21 @@
 
 using namespace std;
 
+/*
 int main() {
     Dice *d = new Dice();
+    cout<<"---------------ROLLING DICE 9 TIMES------------"<<endl;
+    d->roll();
+    d->roll();
+ d->roll();
     d->roll();
     d->roll();
     d->roll();
     d->roll();
     d->roll();
     d->roll();
-    d->roll();
-    d->roll();
-    d->roll();
+
+    cout<<"----------------LIST OF VALUES-----------------"<<endl;
     for (int i = 0; i < d->get_value().size(); i++) {
         cout << *(d->get_value()[i]) << endl;
     }
@@ -30,3 +34,4 @@ int main() {
         d->get_percentage(i);
     }
 };
+*/

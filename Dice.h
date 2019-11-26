@@ -20,7 +20,7 @@ public:
 
     vector<int *> get_value();
 
-    void roll();
+    void roll(int numberOfDices);
 
     int get_rolled_times(int i);
 
