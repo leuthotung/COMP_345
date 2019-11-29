@@ -31,7 +31,8 @@ public:
     void setName(string countryName);
     void addArmies(int number);
     void setOwner(Player* owner);
-
+    bool hasForeignNeighbors();
+    void setNumberOfArmies(int number);
 
 
 };

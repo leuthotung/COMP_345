@@ -149,30 +149,44 @@ void Player::setStrategy(PlayerStrategies* strat) {
 }
 
 void Player::chooseStrategy() {
-    int number;
-    cout<<"Player "<< this->getName() << " please choose one of three strategies: " <<endl;
-    cout<<"1. Human"<<endl;
-    cout<<"2. Aggresive"<<endl;
-    cout<<"3. Benevolent"<<endl;
-    while(true) {
-        cin>>number;
-        if (number == 1) {
-            this->setStrategy(new Human());
-            cout<<" Human strategy has been chosen"<<endl;
-            break;
-        } else if (number = 2) {
-            this->setStrategy(new Aggresive());
-            cout<<" Aggressive strategy has been chosen"<<endl;
-            break;
-        } else if (number = 3) {
-            this->setStrategy(new Benevolent);
-            cout<<" Benevolent strategy has been chosen"<<endl;
-            break;
+        int number;
+        cout<<"Player "<< this->getName() << " please choose one of five strategies: " <<endl;
+        cout<<"1. Human"<<endl;
+        cout<<"2. Aggressive"<<endl;
+        cout<<"3. Benevolent"<<endl;
+        cout<<"4. Random"<<endl;
+        cout<<"5. Cheater"<<endl;
+        while(true) {
+            cin>>number;
+            if (number == 1) {
+                this->setStrategy(new Human());
+                cout<<" Human strategy has been chosen"<<endl;
+                break;
+            } else if (number == 2) {
+                this->setStrategy(new Aggressive());
+                cout<<" Aggressive strategy has been chosen"<<endl;
+                break;
+            } else if (number == 3) {
+                this->setStrategy(new Benevolent);
+                cout<<" Benevolent strategy has been chosen"<<endl;
+                break;
+            }else if (number == 4) {
+                this->setStrategy(new Random);
+                cout<<" Random strategy has been chosen"<<endl;
+                break;
+            }else if (number == 5) {
+                this->setStrategy(new Cheater);
+                cout<<" Cheater strategy has been chosen"<<endl;
+                break;
+            }
+            else{
+                cout<<"Invalid number please choose again !!"<<endl;
+            }
         }
-        else{
-            cout<<"Invalid number please choose again !!"<<endl;
-        }
-    }
+
+
+
+    
 
 
 
@@ -197,6 +211,10 @@ void Player::setPlayers(vector <Player*> gamePlayers) {
 void Player::setObserverSelect(int i ) {
     *observerSelect = i;
 
+}
+
+PlayerStrategies *Player::getStrategy() {
+    return strategies;
 }
 
 

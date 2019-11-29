@@ -61,6 +61,7 @@ void GameEngine::gameInit(vector<string> maps) {
         cout<<"Please enter name of player " <<i<<": "<<endl;
         cin>>name;
         Player*player = new Player(name);
+        player->chooseStrategy();
         player->setMap(this->gameMap);
         PhaseObserver* phaseObserver = new PhaseObserver(player);
         GameStatsObserver* gameStaticsObserver = new GameStatsObserver(player);
@@ -148,7 +149,6 @@ void GameEngine::gameLoop() {
     bool gameFinish = false;
     while(!gameFinish){
         for(int i = 0; i< players.size(); i++){
-            players[i]->chooseStrategy();
             players[i]->reinforce();
             players[i]->attack();
             int temp = players.size();
