@@ -38,7 +38,6 @@ private:
 	vector<Country*> countries; //Collection of countries
 	Dice* dice; // Dice facility
 	Hand* hand;    //Hand of Risk cards
-	vector<Continent*> continentsOwned;
 	Map* gameMap;
     PlayerStrategies *strategies;
     int* observerSelect;
@@ -48,6 +47,7 @@ private:
 public:
 	Player();
 	~Player();
+	Player(string name,PlayerStrategies *strat);
 	Player(string name);
 	Hand* getHand();
 	Dice* getDice();
@@ -70,6 +70,8 @@ public:
     vector<Player*> getPlayers();
     void setPlayers(vector<Player*> player);
     void setObserverSelect(int i);
+    PlayerStrategies* getStrategy();
+
 };
 
 #endif

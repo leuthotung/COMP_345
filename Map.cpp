@@ -60,6 +60,19 @@ Continent *Country::getContinent() {
     return continent;
 }
 
+bool Country::hasForeignNeighbors() {
+    for(Country* c:this->getNeigbors()){
+        if(c->getOwner()!=this->getOwner()){
+            return true;
+        }
+    }
+    return false;
+}
+
+void Country::setNumberOfArmies(int number) {
+    *this->numberOfArmies=number;
+}
+
 
 Continent::Continent(string continentName, int value) {
     this->name = new string(continentName);
