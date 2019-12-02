@@ -563,6 +563,7 @@ void Aggressive::fortify(Player *player) {
     cout << "------------------FORTIFICATION PHASE ENDS-------------------------" << endl;
 }
 
+
 void Benevolent::reinforce(Player *player) {
 
     cout << "------------------REINFORCE PHASE START-------------------------" << endl;
@@ -679,7 +680,7 @@ void Random::attack(Player *player) {
     Country *countryToAttack = countries[randomNumber];
     //decide which country to be attacked
     int anotherRandomNumber = rand() % countryToAttack->getNeigbors().size();
-    Country *countryToBeAttacked = countryToAttack->getNeigbors()[randomNumber];
+    Country *countryToBeAttacked = countryToAttack->getNeigbors()[anotherRandomNumber];
     //decide whether to attack or not
     bool attackFlag;
     if (rand() % countryToAttack->getNumberOfArmies() == 0) {
@@ -757,7 +758,7 @@ void Random::attack(Player *player) {
         countryToAttack->addArmies(-loseCounter);
         countryToBeAttacked->addArmies(-winCounter);
 
-        if (rand() % countryToAttack->getNumberOfArmies() == 0) {
+        if (countryToAttack->getNumberOfArmies() == 0) {
             attackFlag = false;
         }
     }
@@ -780,17 +781,22 @@ void Random::fortify(Player *player) {
             domesticNeighbours.push_back(c);
         }
     }
-    int anotherRandomNumber = rand() % domesticNeighbours.size();
-    Country *countryToMoveArmy = domesticNeighbours[anotherRandomNumber];
-    //decide how many army to be moved
-    int randomCount = rand() % countryToMoveArmy->getNumberOfArmies();
-    countryToMoveArmy->setNumberOfArmies(countryToMoveArmy->getNumberOfArmies() - randomCount);
-    countryToFortify->setNumberOfArmies(countryToFortify->getNumberOfArmies() + randomCount);
+    if (domesticNeighbours.size() != 0) {
+        int anotherRandomNumber = rand() % domesticNeighbours.size();
+        Country *countryToMoveArmy = domesticNeighbours[anotherRandomNumber];
+        //decide how many army to be moved
+        int randomCount = rand() % countryToMoveArmy->getNumberOfArmies();
+        countryToMoveArmy->setNumberOfArmies(countryToMoveArmy->getNumberOfArmies() - randomCount);
+        countryToFortify->setNumberOfArmies(countryToFortify->getNumberOfArmies() + randomCount);
 
-    player->setObserverSelect(0);
-    player->Notify();
-    cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
-    player->showInformation();
+        player->setObserverSelect(0);
+        player->Notify();
+        cout << "--------------------THIS IS YOUR INFORMATION-----------------------" << endl;
+        player->showInformation();
+    }
+    else{
+        cout<<"Theres no domestic neighbor in randomed country "<<endl;
+    }
     cout << "----------------------------------------------------------------------" << endl;
     cout << "------------------FORTIFICATION PHASE ENDS-------------------------" << endl;
 }

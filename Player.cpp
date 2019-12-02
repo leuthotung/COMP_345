@@ -120,7 +120,6 @@ int Player::armiesFromContinent() {
 
 }
 void Player::reinforce() {
-    clear();
     *phase = "Reinforce";
     *observerSelect = 2;
     Notify();
@@ -128,7 +127,6 @@ void Player::reinforce() {
 }
 
 void Player::attack() {
-    clear();
     *phase = "Attack";
     *observerSelect = 2;
     Notify();
@@ -136,7 +134,6 @@ void Player::attack() {
 }
 
 void Player::fortify() {
-    clear();
     *phase = "Foritify";
     *observerSelect=2;
     Notify();
@@ -167,15 +164,15 @@ void Player::chooseStrategy() {
                 cout<<" Aggressive strategy has been chosen"<<endl;
                 break;
             } else if (number == 3) {
-                this->setStrategy(new Benevolent);
+                this->setStrategy(new Benevolent());
                 cout<<" Benevolent strategy has been chosen"<<endl;
                 break;
             }else if (number == 4) {
-                this->setStrategy(new Random);
+                this->setStrategy(new Random());
                 cout<<" Random strategy has been chosen"<<endl;
                 break;
             }else if (number == 5) {
-                this->setStrategy(new Cheater);
+                this->setStrategy(new Cheater());
                 cout<<" Cheater strategy has been chosen"<<endl;
                 break;
             }
@@ -215,6 +212,15 @@ void Player::setObserverSelect(int i ) {
 
 PlayerStrategies *Player::getStrategy() {
     return strategies;
+}
+
+Player::Player(string name,PlayerStrategies* strat) {
+    this->name = new string(name);
+    strategies = strat;
+    this->hand = new Hand();
+    this->dice = new Dice();
+    this->phase = new string("null");
+    this->observerSelect = new int(2);
 }
 
 

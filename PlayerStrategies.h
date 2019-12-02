@@ -29,16 +29,20 @@ class Aggressive : public PlayerStrategies {
 private:
     const string name="Aggressive";
 public:
+
     string getName(){return name;}
     void reinforce(Player *player);
     void attack(Player *player);
     void fortify(Player *player);
+
+
 };
 
 class Benevolent : public PlayerStrategies {
 private:
     const string name="Benevolent";
 public:
+
     string getName(){return name;}
     void reinforce(Player *player);
     void attack(Player *player);
@@ -49,6 +53,7 @@ class Random : public PlayerStrategies {
 private:
     const string name="Random";
 public:
+
     string getName(){return name;}
     void reinforce(Player *player);
     void attack(Player *player);
@@ -59,6 +64,7 @@ class Cheater : public PlayerStrategies {
 private:
     const string name="Cheater";
 public:
+
     string getName(){return name;}
     void reinforce(Player *player);
     void attack(Player *player);

@@ -1,4 +1,3 @@
-/*
 #include <dirent.h>
 #include <iostream>
 #include <string>
@@ -11,13 +10,13 @@ using namespace std;
 
 int main() {
     GameEngine game = GameEngine();
-    game.gameInit(game.getMapFiles("../Maps"));
+/*    game.gameInit(game.getMapFiles("../Maps"));
     game.gameStartUp2();
-    game.gameLoop();
+    game.gameLoop();*/
+    game.tournamentGame();
 
 
 
 
 
 }
-*/

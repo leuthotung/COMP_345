@@ -70,7 +70,7 @@ void GameStatsObserver::display() {
             cout << _subject->getPlayers()[i]->getName() << " has own " << (float)_subject->getPlayers()[i]->getCountries().size() / _subject->getMap()->getCountries().size() * 100 << " percentage of world" << endl;
             if ((float)_subject->getPlayers()[i]->getCountries().size() / _subject->getMap()->getCountries().size() * 100 == 100) {
                 cout << _subject->getPlayers()[i]->getName() << " win the game" << endl;
-                exit(0);
+                //exit(0);
             }
         }
 

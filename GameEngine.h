@@ -17,6 +17,7 @@ class GameEngine {
 private:
     Map *gameMap;
     vector<Player*> players;
+    vector<Map*> Maps;
 
 
 public:
@@ -30,7 +31,11 @@ public:
     void gameStartUp2();
     void gameStartUp();
     void gameLoop();
+    string gameLoop(int numberOfTurns);
     void gameInit(vector<string> maps);
+    void tournamentGame();
+    void singleGame();
+    void resetPlayers();
 
 };
 
