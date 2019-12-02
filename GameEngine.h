@@ -35,7 +35,7 @@ public:
     void gameInit(vector<string> maps);
     void tournamentGame();
     void singleGame();
-    void resetPlayers();
+
 
 };
 
